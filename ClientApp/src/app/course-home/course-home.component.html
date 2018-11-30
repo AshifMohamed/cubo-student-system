@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row h-50">
+    <div class="col-sm-12 my-auto">
+
+      <div class="mx-auto">
+          <!-- <div class="col-md-4 offset-md-8"> -->
+              <button type="button" (click)="viewCourseForm()" mat-raised-button color="primary">Add Course +</button>
+              <div style="margin-top: 2%"></div>
+              <div *ngIf="isProcessing">
+
+                  <form [formGroup]="courseForm" (ngSubmit)="addCourse()">
+                    <div class="row">
+                      <div class="col-md-4">
+                      <mat-form-field class="example-full-width text-dark">
+                        <input
+                          matInput
+                          placeholder="Course Id"
+                          formControlName="courseId"
+                        />
+                        <mat-error *ngIf="courseId.hasError('required')">
+                            course Id is <strong>required</strong>
+                        </mat-error>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                      <mat-form-field class="example-full-width text-dark">
+                          <input
+                            matInput
+                            placeholder="Course Name"
+                            formControlName="courseName"
+                          />
+                          <mat-error *ngIf="courseName.hasError('required')">
+                              Course Name is <strong>required</strong>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+  
+                          <div class="col-md-2">
+                          <button class="example-full-width" type="submit" mat-raised-button color="primary">Submit</button>
+                          </div>
+                        </div>
+                    </form>
+
+              </div>
+              <!-- </div> -->
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="Course Id">
+    <th mat-header-cell *matHeaderCellDef> Course Id </th>
+    <td mat-cell *matCellDef="let element"> {{element.courseId}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Course Name">
+    <th mat-header-cell *matHeaderCellDef> Course Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.courseName}} </td>
+  </ng-container>
+  
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+</div>
+</div>
+</div>
+</div>

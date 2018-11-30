@@ -12442,11 +12442,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Azeem\\source\\repos\\ServerApp\\ServerApp\\ServerApp.csproj",
+      "projectUniqueName": "C:\\Users\\Azeem\\source\\repos\\student-system\\ServerApp\\ServerApp\\ServerApp.csproj",
       "projectName": "ServerApp",
-      "projectPath": "C:\\Users\\Azeem\\source\\repos\\ServerApp\\ServerApp\\ServerApp.csproj",
+      "projectPath": "C:\\Users\\Azeem\\source\\repos\\student-system\\ServerApp\\ServerApp\\ServerApp.csproj",
       "packagesPath": "C:\\Users\\Azeem\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Azeem\\source\\repos\\ServerApp\\ServerApp\\obj\\",
+      "outputPath": "C:\\Users\\Azeem\\source\\repos\\student-system\\ServerApp\\ServerApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

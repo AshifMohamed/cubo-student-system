@@ -12,3 +12,17 @@ C:\Users\Azeem\source\repos\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerAp
 C:\Users\Azeem\source\repos\ServerApp\ServerApp\bin\Debug\netcoreapp2.1\ServerApp.pdb
 C:\Users\Azeem\source\repos\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.dll
 C:\Users\Azeem\source\repos\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.pdb
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\bin\Debug\netcoreapp2.1\ServerApp.deps.json
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\bin\Debug\netcoreapp2.1\ServerApp.runtimeconfig.json
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\bin\Debug\netcoreapp2.1\ServerApp.runtimeconfig.dev.json
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\bin\Debug\netcoreapp2.1\ServerApp.dll
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\bin\Debug\netcoreapp2.1\ServerApp.pdb
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.csprojAssemblyReference.cache
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.csproj.CoreCompileInputs.cache
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.RazorAssemblyInfo.cache
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.RazorAssemblyInfo.cs
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.AssemblyInfoInputs.cache
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.AssemblyInfo.cs
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.RazorTargetAssemblyInfo.cache
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.dll
+C:\Users\Azeem\source\repos\student-system\ServerApp\ServerApp\obj\Debug\netcoreapp2.1\ServerApp.pdb

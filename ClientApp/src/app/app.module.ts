@@ -24,6 +24,7 @@ import {MatTableModule} from '@angular/material/table';
 import { LecturerHomeComponent } from './lecturer-home/lecturer-home.component';
 import { ViewStudentsComponent } from './view-students/view-students.component';
 import { CourseHomeComponent } from './course-home/course-home.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -48,7 +49,8 @@ import { CourseHomeComponent } from './course-home/course-home.component';
     MatSelectModule,
     MatButtonModule,
     MatCardModule,
-    MatTableModule
+    MatTableModule,
+    MatSidenavModule
   ],
   providers: [UserService,CourseService,StudentService,LecturerService],
   bootstrap: [AppComponent]

@@ -9,7 +9,6 @@ using ServerApp.Models;
 
 namespace ServerApp.Controllers
 {
-    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class LecturersController : ControllerBase

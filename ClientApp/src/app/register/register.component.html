@@ -11,10 +11,10 @@
                   <h3 class="card-title">Student Registration Form </h3>
                   <form class="example-full-width" [formGroup]="studentForm" (ngSubmit)="addStudent()">
                       <div class="row">
-                    <div class="col-md-5 img-class">
-                        <img [src]="url"> <br/>
-                        <input type='file' (change)="onSelectFile($event)">
-                    </div>
+                        <div class="col-md-5 img-class">
+                          <img [src]="url" /> <br />
+                          <input class="ng-hide" id="input-file-id" type="file" (change)="onChange($event)"/>
+                        </div>
                     <div class="col-md-6">
                     <mat-form-field class="example-full-width text-dark">
                       <input
@@ -66,10 +66,10 @@
                   <h3 class="card-title">Lecturer Registration Form </h3>
                   <form [formGroup]="lecturerForm" (ngSubmit)="addLecturer()">
                       <div class="row">
-                          <div class="col-md-5 img-class">
-                              <img [src]="url"> <br/>
-                              <input type='file' (change)="onSelectFile($event)">
-                          </div>
+                        <div class="col-md-5 img-class">
+                          <img [src]="url" /> <br />
+                          <input class="ng-hide" id="input-file-id" type="file" (change)="onChange($event)"/>
+                        </div>
                     <div class="col-md-6">
                     <mat-form-field class="example-full-width text-dark">
                       <input

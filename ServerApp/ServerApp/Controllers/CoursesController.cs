@@ -9,7 +9,6 @@ using ServerApp.Models;
 
 namespace ServerApp.Controllers
 {
-    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class CoursesController : ControllerBase
@@ -25,6 +24,8 @@ namespace ServerApp.Controllers
         [HttpGet]
         public IEnumerable<Course> GetCourse()
         {
+            Console.WriteLine("Server Came");
+            Console.WriteLine("=================================");
             return _context.Course;
         }
 

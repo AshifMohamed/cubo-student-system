@@ -14,12 +14,13 @@ namespace ServerApp.Models
         {
         }
 
-        public DbSet<ServerApp.Models.User> User { get; set; }
+        public DbSet<User> User { get; set; }
 
-        public DbSet<ServerApp.Models.Course> Course { get; set; }
+        public DbSet<Course> Course { get; set; }
 
-        public DbSet<ServerApp.Models.Student> Student { get; set; }
+        public DbSet<Student> Student { get; set; }
 
-        public DbSet<ServerApp.Models.Lecturer> Lecturer { get; set; }
+        public DbSet<Lecturer> Lecturer { get; set; }
+
     }
 }

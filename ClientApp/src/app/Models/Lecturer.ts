@@ -1,4 +1,6 @@
 import { Course } from './Course';
+import { User } from './User';
+import { Image } from './Image';
 
 export interface Lecturer{
 
@@ -6,6 +8,10 @@ export interface Lecturer{
     lecturerFirstName : string;
     lecturerLastName : string;
     lecturerSalary : any;
+    user: User;
     userName: string;
-    lecturerCourse:Course;
+    course: Course;
+    lecturerCourse:string;
+    image:Image;
+    lecturerImage:number;
 }

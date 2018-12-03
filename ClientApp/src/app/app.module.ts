@@ -25,6 +25,7 @@ import { LecturerHomeComponent } from './lecturer-home/lecturer-home.component';
 import { ViewStudentsComponent } from './view-students/view-students.component';
 import { CourseHomeComponent } from './course-home/course-home.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { UploadImageComponent } from './upload-image/upload-image.component';
 
 
 @NgModule({
@@ -35,7 +36,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     StudentProfileComponent,
     LecturerHomeComponent,
     ViewStudentsComponent,
-    CourseHomeComponent
+    CourseHomeComponent,
+    UploadImageComponent
   ],
   imports: [
     BrowserModule,

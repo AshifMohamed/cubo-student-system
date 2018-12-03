@@ -4,6 +4,8 @@ import { UserService } from "../Services/user.service";
 import { User } from "../Models/User";
 import { Student } from "../Models/Student";
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { Course } from '../Models/Course';
+import { Image } from '../Models/Image';
 
 @Component({
   selector: "app-student-profile",
@@ -19,11 +21,11 @@ export class StudentProfileComponent implements OnInit {
 
   profileForm:FormGroup;
 
-  student: Student = {
-    studentId: null,
-    studentFirstName: null,
-    studentLastName: null
-  };
+  user:User={userName:null,password:null,role:null};
+  course:Course={courseId:null,courseName:null};
+  image:Image={imageId:null,userImage:null};
+  student:Student={studentId:null,studentFirstName:null,studentLastName:null,user:this.user,
+  course:this.course,image:this.image,studentCourse:null,studentImage:null};
 
   usernameValue;
 

@@ -7,6 +7,9 @@ import { LecturerService } from '../Services/lecturer.service';
 import { StudentService } from '../Services/student.service';
 import { Student } from '../Models/Student';
 import { CourseService } from '../Services/course.service';
+import { FileUploadService } from '../Services/file-upload.service';
+import { Image } from '../Models/Image';
+import { User } from '../Models/User';
 
 @Component({
   selector: 'app-register',
@@ -25,15 +28,21 @@ export class RegisterComponent implements OnInit {
   lcCourseName = new FormControl("", Validators.required);
   salary = new FormControl("", Validators.required);
 
+  user:User={userName:null,password:null,role:null};
+  course:Course={courseId:null,courseName:null};
+  image:Image={imageId:null,userImage:null};
+  lecturer:Lecturer={lecturerId:null,lecturerFirstName:null,lecturerLastName:null,userName:null,
+  lecturerCourse:null,lecturerSalary:null,course:this.course,image:this.image,lecturerImage:null,user:this.user};
+  student:Student={studentId:null,studentFirstName:null,studentLastName:null,user:this.user,
+  course:this.course,image:this.image,studentCourse:null,studentImage:null};
 
-  lecturer:Lecturer;
-  student:Student;
-  course:Course;
   url:any;
   courses:any;
+  fileFormatsSupported;
+  fileSelected:File;
 
   constructor(fb: FormBuilder, private lecturerService: LecturerService, private studentService: StudentService,
-  private courseService:CourseService) {
+  private courseService:CourseService,private fileUploadService:FileUploadService) {
     this.studentForm = fb.group({
         'stFirstName': this.stFirstName,
         'stLastName': this.stLastName,
@@ -62,14 +71,36 @@ export class RegisterComponent implements OnInit {
     this.lecturerForm.get("courseName").value+" "+
     this.lecturerForm.get("salary").value);
 
-    this.course.courseName=this.lecturerForm.get("courseName").value;
-    this.course.courseName="computing";
-
-
     this.lecturer.lecturerFirstName=this.lecturerForm.get("firstName").value;
     this.lecturer.lecturerLastName=this.lecturerForm.get("lastName").value;
     this.lecturer.lecturerSalary=this.lecturerForm.get("salary").value;
-    this.lecturer.lecturerCourse=this.course;
+    this.lecturer.lecturerCourse=this.lecturerForm.get("lcCourseName").value;
+
+  }
+
+  addStudent(){
+
+    console.log("Student Came");
+    console.log( this.studentForm.get("stFirstName").value+" "+
+    this.studentForm.get("stLastName").value+" "+
+    this.studentForm.get("stCourseName").value+" ");
+
+    this.course.courseName=this.studentForm.get("stCourseName").value;
+    this.course.courseName="computing";
+    this.course.courseId="C1";
+
+    this.student.studentFirstName=this.studentForm.get("stFirstName").value;
+    this.student.studentLastName=this.studentForm.get("stLastName").value;
+    this.student.studentCourse=this.studentForm.get("stCourseName").value;
+    this.student.studentCourse="C1";
+    this.student.studentId="ST01";
+    this.student.image=this.image;
+    this.student.studentImage=this.image.imageId;
+    // this.student.studentId=this.studentForm.get("stCourseName").value;
+
+    console.log(this.student.image.userImage);
+    
+    this.saveStudent();
 
   }
 
@@ -102,17 +133,52 @@ export class RegisterComponent implements OnInit {
     
   }
 
-  onSelectFile(event) {
-    if (event.target.files && event.target.files[0]) {
-      var reader = new FileReader();
+  public upload() {
 
-      reader.readAsDataURL(event.target.files[0]); // read file as data url
+    this.fileUploadService.uploadFiles(this.fileSelected).subscribe(
+      response => console.log("set any success actions..." + response),
+      error => {
+        console.log("set any error actions..." + JSON.stringify(error));
+      },
+      () => {
+        console.log("Sucessful");
+      }
+    );
+     
+      // window.location.href = 'http://localhost:4200/company';
+  }
+
+  onChange($event) {
+
+    if ($event.target.files && $event.target.files[0]) {
+
+      this.fileSelected=$event.target.files[0];
+
+      var reader = new FileReader();
+      var reader2=new FileReader();
+
+      reader.readAsDataURL(this.fileSelected); // read file as data url
 
       reader.onload = (event) => { // called once readAsDataURL is completed
 
         this.url =(<FileReader> event.target).result;
+        this.image.userImage =this.url as string;
+        this.image.imageId=1;
+        this.user.userName="test";
+        this.user.password="test";
+        this.user.role="Student";
+        // console.log(this.url);
       }
+
     }
+
+    // console.log(this.fileSelected.type);
+
+    // console.log(this.url)
+    // console.log(this.image.userImage)
+
+      // if(!this.fileFormatsSupported.includes(this.fileSelected.type))
+      // alert("File Format Not Supported");    
   }
 
 }

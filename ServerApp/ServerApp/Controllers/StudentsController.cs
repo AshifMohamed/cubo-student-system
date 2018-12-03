@@ -9,7 +9,6 @@ using ServerApp.Models;
 
 namespace ServerApp.Controllers
 {
-    [Produces("application/json")]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentsController : ControllerBase
@@ -32,7 +31,6 @@ namespace ServerApp.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStudent([FromRoute] string id)
         {
-            Console.WriteLine("Came To get Students");
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -87,7 +85,11 @@ namespace ServerApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PostStudent([FromBody] Student student)
         {
-            if (!ModelState.IsValid)
+            Console.WriteLine("======================================================");
+            Console.WriteLine("Came to Student post");
+            Console.WriteLine(student.Image.UserImage);
+
+         /*   if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
@@ -107,7 +109,7 @@ namespace ServerApp.Controllers
                 {
                     throw;
                 }
-            }
+            }*/
 
             return CreatedAtAction("GetStudent", new { id = student.StudentId }, student);
         }

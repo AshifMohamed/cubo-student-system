@@ -18,5 +18,10 @@ namespace ServerApp.Models
         [ForeignKey("Course")]
         public string StudentCourse { get; set; }
         public Course Course { get; set; }
+
+        [ForeignKey("Image")]
+        public int StudentImage { get; set; }
+        public Image Image { get; set; }
+
     }
 }

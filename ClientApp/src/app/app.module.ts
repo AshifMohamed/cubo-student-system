@@ -4,6 +4,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +27,10 @@ import { ViewStudentsComponent } from './view-students/view-students.component';
 import { CourseHomeComponent } from './course-home/course-home.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { UploadImageComponent } from './upload-image/upload-image.component';
+import { LecturerLayoutComponent } from './layout/lecturer-layout/lecturer-layout.component';
+import { LecturerProfileComponent } from './lecturer-profile/lecturer-profile.component';
+import { StudentLayoutComponent } from './layout/student-layout/student-layout.component';
+import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
 
 
 @NgModule({
@@ -37,11 +42,15 @@ import { UploadImageComponent } from './upload-image/upload-image.component';
     LecturerHomeComponent,
     ViewStudentsComponent,
     CourseHomeComponent,
-    UploadImageComponent
+    UploadImageComponent,
+    LecturerLayoutComponent,
+    LecturerProfileComponent,
+    StudentLayoutComponent,
+    AdminLayoutComponent
   ],
   imports: [
     BrowserModule,
-    NgbModule,
+    NgbModule.forRoot(),
     ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using ServerApp.Models;
+using Newtonsoft.Json;
 
 namespace ServerApp
 {
@@ -37,6 +38,9 @@ namespace ServerApp
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().AddJsonOptions(options => {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
             services.AddDbContext<DatabaseContext>(options =>
                     options.UseMySql(Configuration.GetConnectionString("DatabaseContext")));

@@ -36,7 +36,11 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var student = await _context.Student.FindAsync(id);
+            var student = await _context.Student
+                             .Where(s => s.StudentId == id)
+                            .Include(s => s.Image)
+                            .Include(s => s.Course)
+                            .FirstAsync();
 
             if (student == null)
             {
@@ -87,14 +91,21 @@ namespace ServerApp.Controllers
         {
             Console.WriteLine("======================================================");
             Console.WriteLine("Came to Student post");
-            Console.WriteLine(student.Image.UserImage);
+            Console.WriteLine(student.StudentCourse);
+            student.joinedYear = DateTime.Now.Year.ToString();
+            var count = getCurrentYearStdCount(student.joinedYear) + 1;
+            student.StudentId = student.StudentCourse + student.joinedYear+ count;
 
-         /*   if (!ModelState.IsValid)
+            var user = new User
             {
-                return BadRequest(ModelState);
-            }
-
+                UserName = student.StudentId,
+                Password = student.StudentId,
+                Role = "Student"   
+            };
+            student.Course = null;
+            student.User = user;
             _context.Student.Add(student);
+
             try
             {
                 await _context.SaveChangesAsync();
@@ -109,7 +120,29 @@ namespace ServerApp.Controllers
                 {
                     throw;
                 }
-            }*/
+            }           
+
+            /*   if (!ModelState.IsValid)
+               {
+                   return BadRequest(ModelState);
+               }
+
+               _context.Student.Add(student);
+               try
+               {
+                   await _context.SaveChangesAsync();
+               }
+               catch (DbUpdateException)
+               {
+                   if (StudentExists(student.StudentId))
+                   {
+                       return new StatusCodeResult(StatusCodes.Status409Conflict);
+                   }
+                   else
+                   {
+                       throw;
+                   }
+               }*/
 
             return CreatedAtAction("GetStudent", new { id = student.StudentId }, student);
         }
@@ -138,6 +171,16 @@ namespace ServerApp.Controllers
         private bool StudentExists(string id)
         {
             return _context.Student.Any(e => e.StudentId == id);
+        }
+
+        private int getCurrentYearStdCount(string year)
+        {
+            var count= _context.Student
+                    .Where(s => s.joinedYear == year)
+                    .Count();
+            Console.WriteLine("COUNT IS :" + count);
+            return count;
+          
         }
     }
 }

@@ -14,6 +14,7 @@ namespace ServerApp.Models
 
         public string StudentFirstName { get; set; }
         public string StudentLastName { get; set; }
+        public string joinedYear { get; set; }
 
         [ForeignKey("Course")]
         public string StudentCourse { get; set; }

@@ -1,18 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
-import { StudentService } from "../Services/student.service";
-import { UserService } from "../Services/user.service";
+import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { User } from "../Models/User";
 import { Student } from "../Models/Student";
-import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Course } from '../Models/Course';
 import { Image } from '../Models/Image';
+import { StudentService } from '../Services/student.service';
+import { UserService } from '../Services/user.service';
+
 
 @Component({
-  selector: "app-student-profile",
-  templateUrl: "./student-profile.component.html",
-  styleUrls: ["./student-profile.component.css"]
+  selector: 'app-lecturer-profile',
+  templateUrl: './lecturer-profile.component.html',
+  styleUrls: ['./lecturer-profile.component.css']
 })
-export class StudentProfileComponent implements OnInit {
+export class LecturerProfileComponent implements OnInit {
 
   username=new FormControl("",Validators.required);
   firstName=new FormControl("",Validators.required);
@@ -65,8 +66,6 @@ export class StudentProfileComponent implements OnInit {
 
   getStudent() {
 
-    // this.getUsername();
-   // console.log(this.getUsername());
     this.studentService.getStudent(this.getUsername()).subscribe(
       data => {
         console.log(data);
@@ -76,48 +75,10 @@ export class StudentProfileComponent implements OnInit {
         this.profileForm.setValue({username:this.usernameValue,firstName:this.student.studentFirstName,
       lastName:this.student.studentLastName,courseName:this.student.course.courseName});
       this.url=this.student.image.userImage;
-        this.setProfileDetails();
        
       },
       err => console.log(err)
     );
   }
 
-  setProfileDetails(){   
-    console.log("set Profile");
-    // this.profileForm.controls["username"].setValue(
-    //   this.usernameValue
-    // );
-
-    // this.profileForm.setValue({username:this.usernameValue,firstName:'this.student.StudentFirstName',
-    //   lastName:'this.student.StudentLastName',courseName:""});
-
-    // this.firstName.setValue(this.student.StudentFirstName);
-    // this.lastName.setValue(this.student.StudentLastName);
-    // this.courseName.setValue(this.student.)
-  }
 }
-
-
-
-
-
-
-
- // @ViewChild("usernameInput") usernameInputRef: ElementRef;
-  // @ViewChild("firstNameInput") firstNameInputRef: ElementRef;
-  // @ViewChild("lastNameInput") lastNameInputRef: ElementRef;
-  // @ViewChild("course") courseInputRef: ElementRef;
-
-// ngAfterViewInit() {
-  //   console.log("came to viewInit :");
-  //   this.getUser();
-  // }
-
-
-   // this.usernameInputRef.nativeElement.value = this.username;
-        // this.firstNameInputRef.nativeElement.value = this.student.StudentFirstName;
-        // this.lastNameInputRef.nativeElement.value = this.student.StudentLastName;
-        // this.courseInputRef.nativeElement.value = "Computing";
-
-        // console.log(this.firstNameInputRef.nativeElement.value);

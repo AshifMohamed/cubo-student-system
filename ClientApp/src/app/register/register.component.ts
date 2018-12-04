@@ -37,7 +37,7 @@ export class RegisterComponent implements OnInit {
   course:this.course,image:this.image,studentCourse:null,studentImage:null};
 
   url:any;
-  courses:any;
+  courses:any[];
   fileFormatsSupported;
   fileSelected:File;
 
@@ -85,19 +85,22 @@ export class RegisterComponent implements OnInit {
     this.studentForm.get("stLastName").value+" "+
     this.studentForm.get("stCourseName").value+" ");
 
-    this.course.courseName=this.studentForm.get("stCourseName").value;
-    this.course.courseName="computing";
-    this.course.courseId="C1";
+    // this.course.courseName=this.studentForm.get("stCourseName").value;
+    // this.course.courseName="computing";
+    // this.course.courseId="C1";
 
     this.student.studentFirstName=this.studentForm.get("stFirstName").value;
     this.student.studentLastName=this.studentForm.get("stLastName").value;
     this.student.studentCourse=this.studentForm.get("stCourseName").value;
-    this.student.studentCourse="C1";
-    this.student.studentId="ST01";
+    // this.student.studentCourse="C1";
+    // this.student.studentId="ST01";
     this.student.image=this.image;
-    this.student.studentImage=this.image.imageId;
+    this.student.studentImage=2;
     // this.student.studentId=this.studentForm.get("stCourseName").value;
+    this.student.course=this.courses.find(f => f.courseId== this.student.studentCourse) as Course;
 
+    console.log(this.courses.find(f => f.courseId== this.student.studentCourse) as Course);
+    console.log(this.student.studentCourse);
     console.log(this.student.image.userImage);
     
     this.saveStudent();
@@ -127,7 +130,7 @@ export class RegisterComponent implements OnInit {
     this.courseService.getCourses().subscribe(data=>{
 
        console.log(data);
-        this.courses=<Course>data
+        this.courses=<Course[]>data
       }
     );
     

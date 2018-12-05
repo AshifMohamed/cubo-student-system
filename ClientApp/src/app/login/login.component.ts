@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { User } from '../Models/User';
-import { UserService } from '../Services/user.service';
+import { AuthService } from '../Services/auth.service';
 import { Router } from '@angular/router';
+import { Helpers } from '../helpers/helper';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   user:User={userName:null,password:null,role:null};
   test:any;
 
-  constructor(fb:FormBuilder, private userService:UserService, private route:Router) {
+  constructor(fb:FormBuilder, private userService:AuthService, private route:Router,
+    private helpers: Helpers) {
     this.loginForm = fb.group({
       'username': this.username,
       'password': this.password
@@ -40,14 +42,34 @@ export class LoginComponent implements OnInit {
 
         this.user=<User>data;
         console.log(this.user);
-        this.userService.changeUser(this.user.userName);
-        this.route.navigate(['/student']);
+        this.userService.changeUser(this.user);
+        this.helpers.setToken(this.user);
+        this.navigate(this.user.role);
+      }
+      else{
+        this.route.navigate(['/login']);
       }
     },
-      err=>console.log(err)
-      ); 
+      err=>{
+        console.log(err);
+        this.route.navigate(['/login']);
+      }); 
 
   }
 
+  navigate(role: string):void{
+
+    switch(role){
+
+      case "Student" :  this.route.navigate(['/student']);
+                        break;
+      case "Lecturer" :  this.route.navigate(['/lecturer']);
+                        break;
+      case "Admin" :  this.route.navigate(['/admin']);
+                        break;
+
+    }
+
+  }
 
 }

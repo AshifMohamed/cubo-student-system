@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {FormControl, Validators, FormBuilder, FormGroup} from '@angular/forms';
 import { Lecturer } from '../Models/Lecturer';
 import { Course } from '../Models/Course';
-import { UserService } from '../Services/user.service';
+import { AuthService } from '../Services/auth.service';
 import { LecturerService } from '../Services/lecturer.service';
 import { StudentService } from '../Services/student.service';
 import { Student } from '../Models/Student';
@@ -36,7 +36,8 @@ export class RegisterComponent implements OnInit {
   student:Student={studentId:null,studentFirstName:null,studentLastName:null,user:this.user,
   course:this.course,image:this.image,studentCourse:null,studentImage:null};
 
-  url:any;
+  stdUrl:any;
+  lecUrl:any;
   courses:any[];
   fileFormatsSupported;
   fileSelected:File;
@@ -65,43 +66,28 @@ export class RegisterComponent implements OnInit {
 
   addLecturer(){
 
-    console.log("Came");
-    console.log( this.lecturerForm.get("firstName").value+" "+
-    this.lecturerForm.get("lastName").value+" "+
-    this.lecturerForm.get("courseName").value+" "+
-    this.lecturerForm.get("salary").value);
-
-    this.lecturer.lecturerFirstName=this.lecturerForm.get("firstName").value;
-    this.lecturer.lecturerLastName=this.lecturerForm.get("lastName").value;
+    this.lecturer.lecturerFirstName=this.lecturerForm.get("lcFirstName").value;
+    this.lecturer.lecturerLastName=this.lecturerForm.get("lcLastName").value;
     this.lecturer.lecturerSalary=this.lecturerForm.get("salary").value;
     this.lecturer.lecturerCourse=this.lecturerForm.get("lcCourseName").value;
+
+    this.lecturer.image=this.image;
+    this.lecturer.lecturerImage=0;
+    this.lecturer.course=this.courses.find(f => f.courseId== this.lecturer.lecturerCourse) as Course;
+
+    this.saveLecturer();
 
   }
 
   addStudent(){
 
-    console.log("Student Came");
-    console.log( this.studentForm.get("stFirstName").value+" "+
-    this.studentForm.get("stLastName").value+" "+
-    this.studentForm.get("stCourseName").value+" ");
-
-    // this.course.courseName=this.studentForm.get("stCourseName").value;
-    // this.course.courseName="computing";
-    // this.course.courseId="C1";
-
     this.student.studentFirstName=this.studentForm.get("stFirstName").value;
     this.student.studentLastName=this.studentForm.get("stLastName").value;
     this.student.studentCourse=this.studentForm.get("stCourseName").value;
-    // this.student.studentCourse="C1";
-    // this.student.studentId="ST01";
+   
     this.student.image=this.image;
-    this.student.studentImage=2;
-    // this.student.studentId=this.studentForm.get("stCourseName").value;
+    this.student.studentImage=0;
     this.student.course=this.courses.find(f => f.courseId== this.student.studentCourse) as Course;
-
-    console.log(this.courses.find(f => f.courseId== this.student.studentCourse) as Course);
-    console.log(this.student.studentCourse);
-    console.log(this.student.image.userImage);
     
     this.saveStudent();
 
@@ -136,52 +122,40 @@ export class RegisterComponent implements OnInit {
     
   }
 
-  public upload() {
-
-    this.fileUploadService.uploadFiles(this.fileSelected).subscribe(
-      response => console.log("set any success actions..." + response),
-      error => {
-        console.log("set any error actions..." + JSON.stringify(error));
-      },
-      () => {
-        console.log("Sucessful");
-      }
-    );
-     
-      // window.location.href = 'http://localhost:4200/company';
-  }
-
-  onChange($event) {
+  onStdChange($event) {
 
     if ($event.target.files && $event.target.files[0]) {
 
       this.fileSelected=$event.target.files[0];
 
       var reader = new FileReader();
-      var reader2=new FileReader();
-
       reader.readAsDataURL(this.fileSelected); // read file as data url
 
       reader.onload = (event) => { // called once readAsDataURL is completed
 
-        this.url =(<FileReader> event.target).result;
-        this.image.userImage =this.url as string;
-        this.image.imageId=1;
-        this.user.userName="test";
-        this.user.password="test";
-        this.user.role="Student";
-        // console.log(this.url);
+        this.stdUrl =(<FileReader> event.target).result;
+        this.image.userImage =this.stdUrl as string;
       }
 
     }
+  }
 
-    // console.log(this.fileSelected.type);
+  onLecChange($event) {
 
-    // console.log(this.url)
-    // console.log(this.image.userImage)
+    if ($event.target.files && $event.target.files[0]) {
 
-      // if(!this.fileFormatsSupported.includes(this.fileSelected.type))
-      // alert("File Format Not Supported");    
+      this.fileSelected=$event.target.files[0];
+
+      var reader = new FileReader();
+      reader.readAsDataURL(this.fileSelected); // read file as data url
+
+      reader.onload = (event) => { // called once readAsDataURL is completed
+
+        this.stdUrl =(<FileReader> event.target).result;
+        this.image.userImage =this.lecUrl as string
+      }
+
+    }
   }
 
 }

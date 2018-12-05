@@ -12,8 +12,8 @@
                   <form class="example-full-width" [formGroup]="studentForm" (ngSubmit)="addStudent()">
                       <div class="row">
                         <div class="col-md-5 img-class">
-                          <img [src]="url" /> <br />
-                          <input class="ng-hide" id="input-file-id" type="file" (change)="onChange($event)"/>
+                          <img [src]="stdUrl" /> <br />
+                          <input class="ng-hide" id="input-file-id" type="file" (change)="onStdChange($event)"/>
                         </div>
                     <div class="col-md-6">
                     <mat-form-field class="example-full-width text-dark">
@@ -67,8 +67,8 @@
                   <form [formGroup]="lecturerForm" (ngSubmit)="addLecturer()">
                       <div class="row">
                         <div class="col-md-5 img-class">
-                          <img [src]="url" /> <br />
-                          <input class="ng-hide" id="input-file-id" type="file" (change)="onChange($event)"/>
+                          <img [src]="lecUrl" /> <br />
+                          <input class="ng-hide" id="input-file-id" type="file" (change)="onLecChange($event)"/>
                         </div>
                     <div class="col-md-6">
                     <mat-form-field class="example-full-width text-dark">

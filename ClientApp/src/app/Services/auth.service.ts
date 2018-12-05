@@ -6,17 +6,17 @@ import { BehaviorSubject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class AuthService {
 
-  private usernameSource = new BehaviorSubject('Usename:Ashif');
+  private usernameSource = new BehaviorSubject<User>(null);
   currentUser = this.usernameSource.asObservable();
 
   private headers: HttpHeaders;
   private accessPointUrl: string = 'https://localhost:44316/api/Users';
   private loginAccessPointUrl: string = 'https://localhost:44316/api/Login';
 
-  changeUser(username: string) {
-    this.usernameSource.next(username);
+  changeUser(user: User) {
+    this.usernameSource.next(user);
   }
 
   constructor(private http: HttpClient) {

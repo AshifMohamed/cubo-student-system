@@ -1,17 +1,16 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from './helpers/canActivateAuthGuard';
+
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { StudentProfileComponent } from './student-profile/student-profile.component';
-import { ViewStudentsComponent } from './view-students/view-students.component';
-import { CourseHomeComponent } from './course-home/course-home.component';
-import { LecturerHomeComponent } from './lecturer-home/lecturer-home.component';
 import { LECTURER_ROUTES } from './app-routing-lecturer';
 import { STUDENT_ROUTES } from './app-routing-student';
 import { ADMIN_ROUTES } from './app-routing-admin';
 import { LecturerLayoutComponent } from './layout/lecturer-layout/lecturer-layout.component';
 import { StudentLayoutComponent } from './layout/student-layout/student-layout.component';
 import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
+import { HomeComponent } from './home/home.component';
 
 // const routes: Routes = [
 
@@ -26,12 +25,13 @@ import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.compone
 // ];
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full', },
+  { path: '', redirectTo: '/home', pathMatch: 'full', },
+  { path: 'home',  component: HomeComponent },
   { path: 'login',  component: LoginComponent },
   { path: 'register',  component: RegisterComponent },
-  { path: 'lecturer', component: LecturerLayoutComponent, data: { title: 'lecturer' }, children: LECTURER_ROUTES },
-  { path: 'student', component: StudentLayoutComponent, data: { title: 'student' }, children: STUDENT_ROUTES },
-  { path: 'admin', component: AdminLayoutComponent, data: { title: 'admin' }, children: ADMIN_ROUTES }
+  { path: 'lecturer', component: LecturerLayoutComponent, data: { title: 'lecturer' }, children: LECTURER_ROUTES,canActivate: [AuthGuard] },
+  { path: 'student', component: StudentLayoutComponent, data: { title: 'student' }, children: STUDENT_ROUTES,canActivate: [AuthGuard] },
+  { path: 'admin', component: AdminLayoutComponent, data: { title: 'admin' }, children: ADMIN_ROUTES,canActivate: [AuthGuard] }
 ];
 
 @NgModule({

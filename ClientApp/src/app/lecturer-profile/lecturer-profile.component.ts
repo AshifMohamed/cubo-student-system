@@ -5,7 +5,7 @@ import { Student } from "../Models/Student";
 import { Course } from '../Models/Course';
 import { Image } from '../Models/Image';
 import { StudentService } from '../Services/student.service';
-import { UserService } from '../Services/user.service';
+import { AuthService } from '../Services/auth.service';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class LecturerProfileComponent implements OnInit {
 
   constructor(fb:FormBuilder,
     private studentService: StudentService,
-    private userService: UserService
+    private userService: AuthService
   ) {
 
     this.profileForm=fb.group({
@@ -53,11 +53,11 @@ export class LecturerProfileComponent implements OnInit {
 
    getUsername():string{
 
-    this.userService.currentUser.subscribe( username => {
+    this.userService.currentUser.subscribe( user => {
       
-      this.usernameValue=username;
-      console.log(username);
-       return username;
+      this.usernameValue=user.userName;
+      console.log(user);
+       return user.userName;
       }
     );
 

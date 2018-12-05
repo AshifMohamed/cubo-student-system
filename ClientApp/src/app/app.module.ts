@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {ReactiveFormsModule} from "@angular/forms";
 import { HttpClientModule } from '@angular/common/http';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -13,7 +13,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
-import { UserService } from './Services/user.service';
+import { AuthService } from './Services/auth.service';
 import { LoginComponent } from './login/login.component';
 import { CourseService } from './Services/course.service';
 import { StudentService } from './Services/student.service';
@@ -30,7 +30,9 @@ import { LecturerLayoutComponent } from './layout/lecturer-layout/lecturer-layou
 import { LecturerProfileComponent } from './lecturer-profile/lecturer-profile.component';
 import { StudentLayoutComponent } from './layout/student-layout/student-layout.component';
 import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
-
+import { HomeComponent } from './home/home.component';
+import { Helpers } from './helpers/helper';
+import { AuthGuard } from './helpers/canActivateAuthGuard';
 
 @NgModule({
   declarations: [
@@ -45,11 +47,12 @@ import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.compone
     LecturerLayoutComponent,
     LecturerProfileComponent,
     StudentLayoutComponent,
-    AdminLayoutComponent
+    AdminLayoutComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
-    NgbModule,
+    // NgbModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -62,7 +65,7 @@ import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.compone
     MatTableModule,
     MatSidenavModule
   ],
-  providers: [UserService,CourseService,StudentService,LecturerService],
+  providers: [AuthService,CourseService,StudentService,LecturerService,Helpers,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

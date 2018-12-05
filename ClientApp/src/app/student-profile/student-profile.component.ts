@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { StudentService } from "../Services/student.service";
-import { UserService } from "../Services/user.service";
+import { AuthService } from "../Services/auth.service";
 import { User } from "../Models/User";
 import { Student } from "../Models/Student";
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
@@ -32,7 +32,7 @@ export class StudentProfileComponent implements OnInit {
 
   constructor(fb:FormBuilder,
     private studentService: StudentService,
-    private userService: UserService
+    private userService: AuthService
   ) {
 
     this.profileForm=fb.group({
@@ -52,11 +52,11 @@ export class StudentProfileComponent implements OnInit {
 
    getUsername():string{
 
-    this.userService.currentUser.subscribe( username => {
+    this.userService.currentUser.subscribe( user => {
       
-      this.usernameValue=username;
-      console.log(username);
-       return username;
+      this.usernameValue=user.userName;
+      console.log(user);
+       return user.userName;
       }
     );
 

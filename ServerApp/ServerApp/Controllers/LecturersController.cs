@@ -13,9 +13,9 @@ namespace ServerApp.Controllers
     [ApiController]
     public class LecturersController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly RepositoryContext _context;
 
-        public LecturersController(DatabaseContext context)
+        public LecturersController(RepositoryContext context)
         {
             _context = context;
         }

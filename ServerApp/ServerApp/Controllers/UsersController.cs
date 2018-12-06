@@ -13,9 +13,9 @@ namespace ServerApp.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly RepositoryContext _context;
 
-        public UsersController(DatabaseContext context)
+        public UsersController(RepositoryContext context)
         {
             _context = context;
         }

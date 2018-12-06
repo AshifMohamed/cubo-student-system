@@ -13,6 +13,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using ServerApp.Models;
 using Newtonsoft.Json;
+using ServerApp.Extensions;
 
 namespace ServerApp
 {
@@ -28,22 +29,30 @@ namespace ServerApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
-            });
+            /*       services.AddCors(options =>
+                   {
+                       options.AddPolicy("CorsPolicy",
+                           builder => builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials());
+                   });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddMvc().AddJsonOptions(options => {
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-            });
+                   services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                   services.AddMvc().AddJsonOptions(options => {
+                       options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                   });
+                   
+             services.AddDbContext<DatabaseContext>(options =>
+             options.UseMySql(Configuration.GetConnectionString("DatabaseContext")));
+             */
 
-            services.AddDbContext<DatabaseContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("DatabaseContext")));
+            services.ConfigureCors();
+            services.ConfigureRepositoryWrapper();
+            services.ConfigureMVCVersion();
+            services.ConfigureMVCJson();
+            services.ConfigureMySqlContext(Configuration);
+           
 
         }
 

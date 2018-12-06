@@ -5,26 +5,30 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ServerApp.Helpers;
+using ServerApp.Interfaces;
 using ServerApp.Models;
+using ServerApp.Constants;
+
 
 namespace ServerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class StudentsController : ControllerBase
+    public class StudentsController : Controller
     {
-        private readonly DatabaseContext _context;
+        private readonly IRepositoryWrapper _repoWrapper;
 
-        public StudentsController(DatabaseContext context)
+        public StudentsController(IRepositoryWrapper repositoryWrapper)
         {
-            _context = context;
+            _repoWrapper = repositoryWrapper;
         }
 
         // GET: api/Students
         [HttpGet]
         public IEnumerable<Student> GetStudent()
         {
-            return _context.Student;
+            return _repoWrapper.Student.FindAll();
         }
 
         // GET: api/Students/5
@@ -36,11 +40,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var student = await _context.Student
-                             .Where(s => s.StudentId == id)
-                            .Include(s => s.Image)
-                            .Include(s => s.Course)
-                            .FirstAsync();
+            var student = _repoWrapper.Student.FindStudent(id);
 
             if (student == null)
             {
@@ -64,15 +64,15 @@ namespace ServerApp.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(student).State = EntityState.Modified;
+            _repoWrapper.Student.Update(student);
 
             try
             {
-                await _context.SaveChangesAsync();
+                _repoWrapper.Student.Save();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!StudentExists(id))
+                if (!_repoWrapper.Student.StudentExists(id))
                 {
                     return NotFound();
                 }
@@ -89,30 +89,27 @@ namespace ServerApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PostStudent([FromBody] Student student)
         {
-            Console.WriteLine("======================================================");
-            Console.WriteLine("Came to Student post");
-            Console.WriteLine(student.StudentCourse);
-            student.joinedYear = DateTime.Now.Year.ToString();
-            var count = getCurrentYearStdCount(student.joinedYear) + 1;
+            student.joinedYear = DateHelper.GetCurrentyear();
+            var count = _repoWrapper.Student.GetCurrentYearStdCount() + 1;
             student.StudentId = student.StudentCourse + student.joinedYear+ count;
 
             var user = new User
             {
                 UserName = student.StudentId,
                 Password = student.StudentId,
-                Role = "Student"   
+                Role = Constant.studentRole   
             };
             student.Course = null;
             student.User = user;
-            _context.Student.Add(student);
+            _repoWrapper.Student.Create(student);
 
             try
             {
-                await _context.SaveChangesAsync();
+                _repoWrapper.Student.Save();
             }
             catch (DbUpdateException)
             {
-                if (StudentExists(student.StudentId))
+                if (_repoWrapper.Student.StudentExists(student.StudentId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -156,31 +153,17 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var student = await _context.Student.FindAsync(id);
+            var student =  _repoWrapper.Student.FindStudent(id);
             if (student == null)
             {
                 return NotFound();
             }
 
-            _context.Student.Remove(student);
-            await _context.SaveChangesAsync();
+            _repoWrapper.Student.Delete(student);
+            _repoWrapper.Student.Save();
 
             return Ok(student);
         }
 
-        private bool StudentExists(string id)
-        {
-            return _context.Student.Any(e => e.StudentId == id);
-        }
-
-        private int getCurrentYearStdCount(string year)
-        {
-            var count= _context.Student
-                    .Where(s => s.joinedYear == year)
-                    .Count();
-            Console.WriteLine("COUNT IS :" + count);
-            return count;
-          
-        }
     }
 }

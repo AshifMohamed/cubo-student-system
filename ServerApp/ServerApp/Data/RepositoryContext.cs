@@ -7,9 +7,9 @@ using ServerApp.Models;
 
 namespace ServerApp.Models
 {
-    public class DatabaseContext : DbContext
+    public class RepositoryContext : DbContext
     {
-        public DatabaseContext (DbContextOptions<DatabaseContext> options)
+        public RepositoryContext(DbContextOptions<RepositoryContext> options)
             : base(options)
         {
         }
@@ -21,6 +21,8 @@ namespace ServerApp.Models
         public DbSet<Student> Student { get; set; }
 
         public DbSet<Lecturer> Lecturer { get; set; }
+
+        public DbSet<Image> Image { get; set; }
 
     }
 }

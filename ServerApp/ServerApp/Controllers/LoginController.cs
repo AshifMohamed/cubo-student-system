@@ -13,9 +13,9 @@ namespace ServerApp.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly DatabaseContext _context;
+        private readonly RepositoryContext _context;
 
-        public LoginController(DatabaseContext context)
+        public LoginController(RepositoryContext context)
         {
             _context = context;
         }

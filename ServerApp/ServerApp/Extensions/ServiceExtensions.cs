@@ -6,6 +6,8 @@ using Newtonsoft.Json;
 using ServerApp.Interfaces;
 using ServerApp.Interfaces.Implementationss;
 using ServerApp.Models;
+using ServerApp.Services;
+using ServerApp.Services.Service_Implementations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +51,11 @@ namespace ServerApp.Extensions
         public static void ConfigureRepositoryWrapper(this IServiceCollection services)
         {
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
+        }
+
+        public static void ConfigureStudentService(this IServiceCollection services)
+        {
+            services.AddScoped<IStudentDBService, StudentDBService>();
         }
     }
 }

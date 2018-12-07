@@ -9,7 +9,7 @@ using ServerApp.Helpers;
 using ServerApp.Interfaces;
 using ServerApp.Models;
 using ServerApp.Constants;
-
+using ServerApp.Services;
 
 namespace ServerApp.Controllers
 {
@@ -17,21 +17,19 @@ namespace ServerApp.Controllers
     [ApiController]
     public class StudentsController : Controller
     {
-        private readonly IRepositoryWrapper _repoWrapper;
+        private readonly IStudentDBService studentService;
 
-        public StudentsController(IRepositoryWrapper repositoryWrapper)
+        public StudentsController(IStudentDBService studentService)
         {
-            _repoWrapper = repositoryWrapper;
+            this.studentService = studentService;
         }
 
-        // GET: api/Students
         [HttpGet]
         public IEnumerable<Student> GetStudent()
         {
-            return _repoWrapper.Student.FindAll();
+            return studentService.GetAllStudent();
         }
 
-        // GET: api/Students/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetStudent([FromRoute] string id)
         {
@@ -40,7 +38,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var student = _repoWrapper.Student.FindStudent(id);
+            var student = studentService.GetStudent(id);
 
             if (student == null)
             {
@@ -50,117 +48,55 @@ namespace ServerApp.Controllers
             return Ok(student);
         }
 
-        // PUT: api/Students/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutStudent([FromRoute] string id, [FromBody] Student student)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             if (id != student.StudentId)
             {
                 return BadRequest();
             }
 
-            _repoWrapper.Student.Update(student);
-
-            try
+            if (!ModelState.IsValid)
             {
-                _repoWrapper.Student.Save();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_repoWrapper.Student.StudentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                return BadRequest(ModelState);
+            }          
 
-            return NoContent();
+            if (!studentService.CheckStudentExists(student.StudentId))
+            {
+                return NotFound();
+            }
+            studentService.UpdateStudent(id, student);
+            studentService.SaveStudent();
+
+            return Ok();
         }
 
-        // POST: api/Students
         [HttpPost]
         public async Task<IActionResult> PostStudent([FromBody] Student student)
         {
-            student.joinedYear = DateHelper.GetCurrentyear();
-            var count = _repoWrapper.Student.GetCurrentYearStdCount() + 1;
-            student.StudentId = student.StudentCourse + student.joinedYear+ count;
-
-            var user = new User
+            if (studentService.CheckStudentExists(student.StudentId))
             {
-                UserName = student.StudentId,
-                Password = student.StudentId,
-                Role = Constant.studentRole   
-            };
-            student.Course = null;
-            student.User = user;
-            _repoWrapper.Student.Create(student);
-
-            try
-            {
-                _repoWrapper.Student.Save();
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
-            catch (DbUpdateException)
-            {
-                if (_repoWrapper.Student.StudentExists(student.StudentId))
-                {
-                    return new StatusCodeResult(StatusCodes.Status409Conflict);
-                }
-                else
-                {
-                    throw;
-                }
-            }           
 
-            /*   if (!ModelState.IsValid)
-               {
-                   return BadRequest(ModelState);
-               }
-
-               _context.Student.Add(student);
-               try
-               {
-                   await _context.SaveChangesAsync();
-               }
-               catch (DbUpdateException)
-               {
-                   if (StudentExists(student.StudentId))
-                   {
-                       return new StatusCodeResult(StatusCodes.Status409Conflict);
-                   }
-                   else
-                   {
-                       throw;
-                   }
-               }*/
+            studentService.CreateStudent(student);
+            studentService.SaveStudent();
 
             return CreatedAtAction("GetStudent", new { id = student.StudentId }, student);
         }
 
-        // DELETE: api/Students/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteStudent([FromRoute] string id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            var student =  _repoWrapper.Student.FindStudent(id);
+            var student = studentService.GetStudent(id);
             if (student == null)
             {
                 return NotFound();
             }
 
-            _repoWrapper.Student.Delete(student);
-            _repoWrapper.Student.Save();
+            studentService.DeleteStudent(student);
+            studentService.SaveStudent();
 
             return Ok(student);
         }

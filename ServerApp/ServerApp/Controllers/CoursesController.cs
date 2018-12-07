@@ -80,7 +80,7 @@ namespace ServerApp.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Courses

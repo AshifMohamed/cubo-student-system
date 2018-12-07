@@ -45,5 +45,10 @@ namespace ServerApp.Interfaces
         {
             this.RepositoryContext.Set<T>().Update(entity);
         }
+
+        public bool CheckRecordExists(Expression<Func<T, bool>> expression)
+        {
+            return RepositoryContext.Set<T>().Any(expression);
+        }
     }
 }

@@ -14,5 +14,7 @@ namespace ServerApp.Interfaces
         void Update(T entity);
         void Delete(T entity);
         void Save();
+        bool CheckRecordExists(Expression<Func<T, bool>> expression);
+
     }
 }

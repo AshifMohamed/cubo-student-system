@@ -49,6 +49,7 @@ namespace ServerApp
 
             services.ConfigureCors();
             services.ConfigureRepositoryWrapper();
+            services.ConfigureStudentService();
             services.ConfigureMVCVersion();
             services.ConfigureMVCJson();
             services.ConfigureMySqlContext(Configuration);

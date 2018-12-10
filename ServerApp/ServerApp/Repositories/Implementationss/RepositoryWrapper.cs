@@ -11,7 +11,6 @@ namespace ServerApp.Interfaces.Implementationss
         private RepositoryContext _repoContext;
         private ICourseRepository _course;
         private ILecturerRepository _lecturer;
-        private ILoginRepository _login;
         private IStudentRepository _student;
         private IUserRepository _user;
 
@@ -43,19 +42,6 @@ namespace ServerApp.Interfaces.Implementationss
                 }
 
                 return _lecturer;
-            }
-        }
-
-        public ILoginRepository Login
-        {
-            get
-            {
-                if (_login == null)
-                {
-                    _login = new LoginRepository(_repoContext);
-                }
-
-                return _login;
             }
         }
 

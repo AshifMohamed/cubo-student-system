@@ -1,10 +1,9 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ServerApp.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class CreateTestDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -26,7 +25,7 @@ namespace ServerApp.Migrations
                 {
                     ImageId = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserImage = table.Column<byte[]>(nullable: true)
+                    UserImage = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,6 +88,7 @@ namespace ServerApp.Migrations
                     StudentId = table.Column<string>(nullable: false),
                     StudentFirstName = table.Column<string>(nullable: true),
                     StudentLastName = table.Column<string>(nullable: true),
+                    joinedYear = table.Column<string>(nullable: true),
                     StudentCourse = table.Column<string>(nullable: true),
                     StudentImage = table.Column<int>(nullable: false)
                 },

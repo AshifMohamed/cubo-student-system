@@ -47,6 +47,7 @@ export class CourseHomeComponent implements OnInit {
   }
 
   addCourse(){
+
     this.course.courseId=this.courseForm.get("courseId").value;
     this.course.courseName=this.courseForm.get("courseName").value;
     this.saveCourse();
@@ -58,6 +59,7 @@ export class CourseHomeComponent implements OnInit {
       console.log(data);
 
       this.courseForm.setValue({courseId:"",courseName:""});
+      window.location.href = "http://localhost:4200/admin/course"
 
     },err=>console.log(err));
   }

@@ -8,6 +8,6 @@ namespace ServerApp.Interfaces
 {
     public interface ILecturerRepository : IRepositoryBase<Lecturer>
     {
-
+        Lecturer FindLecturer(string lecUsername);
     }
 }

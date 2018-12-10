@@ -17,7 +17,7 @@ namespace ServerApp.Interfaces.Implementationss
         public Student FindStudent(string id)
         {
              return RepositoryContext.Student
-                .Where(s => s.StudentId == id)
+                .Where(s => s.StudentId.Equals(id))
                 .Include(s => s.Image)
                 .Include(s => s.Course)
                 .First();

@@ -9,7 +9,6 @@ namespace ServerApp.Interfaces
     {
         ICourseRepository Course { get; }
         ILecturerRepository Lecturer { get; }
-        ILoginRepository Login { get; }
         IStudentRepository Student { get; }
         IUserRepository User { get; }
 

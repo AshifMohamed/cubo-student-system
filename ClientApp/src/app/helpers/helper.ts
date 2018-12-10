@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable()
 
@@ -7,7 +8,7 @@ export class Helpers  {
 
     private authenticationChanged = new Subject<boolean>();
 
-    constructor() {
+    constructor(private route:Router) {
 
     }
 
@@ -48,8 +49,7 @@ export class Helpers  {
         }
 
         let obj = JSON.parse(window.localStorage['token']);
-
-        return obj.token;
+        return obj;
 
     }
 
@@ -78,5 +78,20 @@ export class Helpers  {
         this.authenticationChanged.next(this.isAuthenticated());
 
     }
+
+    public navigate(role: string):void{
+
+        switch(role){
+    
+          case "student"    : this.route.navigate(['/student']);
+                                break;
+          case "lecturer"   : this.route.navigate(['/lecturer']);
+                                break;
+          case "admin"      : this.route.navigate(['/admin']);
+                                break;
+    
+        }
+    
+      }
 
 }

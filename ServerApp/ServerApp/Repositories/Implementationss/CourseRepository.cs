@@ -11,5 +11,12 @@ namespace ServerApp.Interfaces.Implementationss
         public CourseRepository(RepositoryContext repositoryContext) : base(repositoryContext)
         {
         }
+
+        public Course FindCourse(string id)
+        {
+            return RepositoryContext.Course
+                                       .Where(c => c.CourseId.Equals(id))                                     
+                                       .First();
+        }
     }
 }

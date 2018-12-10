@@ -27,7 +27,7 @@ namespace ServerApp.Controllers
         [HttpGet]
         public IEnumerable<Student> GetStudent()
         {
-            return studentService.GetAllStudent();
+            return studentService.GetAllStudents();
         }
 
         [HttpGet("{id}")]
@@ -77,6 +77,11 @@ namespace ServerApp.Controllers
             if (studentService.CheckStudentExists(student.StudentId))
             {
                 return new StatusCodeResult(StatusCodes.Status409Conflict);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
             }
 
             studentService.CreateStudent(student);

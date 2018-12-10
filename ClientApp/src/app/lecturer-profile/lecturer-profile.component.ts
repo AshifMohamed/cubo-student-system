@@ -6,6 +6,8 @@ import { Course } from '../Models/Course';
 import { Image } from '../Models/Image';
 import { StudentService } from '../Services/student.service';
 import { AuthService } from '../Services/auth.service';
+import { LecturerService } from '../Services/lecturer.service';
+import { Lecturer } from '../Models/Lecturer';
 
 
 @Component({
@@ -25,14 +27,14 @@ export class LecturerProfileComponent implements OnInit {
   user:User={userName:null,password:null,role:null};
   course:Course={courseId:null,courseName:null};
   image:Image={imageId:null,userImage:null};
-  student:Student={studentId:null,studentFirstName:null,studentLastName:null,user:this.user,
-  course:this.course,image:this.image,studentCourse:null,studentImage:null};
+  lecturer:Lecturer={lecturerId:null,lecturerFirstName:null,lecturerLastName:null,lecturerSalary:this.user,
+  course:this.course,image:this.image,lecturerCourse:null,lecturerImage:null,userName:null,user:null};
 
   usernameValue:string;
   url:any;
 
   constructor(fb:FormBuilder,
-    private studentService: StudentService,
+    private lecturerService: LecturerService,
     private userService: AuthService
   ) {
 
@@ -48,7 +50,7 @@ export class LecturerProfileComponent implements OnInit {
 
   ngOnInit() {
     
-    this.getStudent();
+    this.getLecturer();
   }
 
    getUsername():string{
@@ -64,17 +66,17 @@ export class LecturerProfileComponent implements OnInit {
     return  this.usernameValue;
   }
 
-  getStudent() {
+  getLecturer() {
 
-    this.studentService.getStudent(this.getUsername()).subscribe(
+    this.lecturerService.getLecturer(this.getUsername()).subscribe(
       data => {
         console.log(data);
-        this.student = <Student>data;
-        console.log(this.student);
+        this.lecturer = <Lecturer>data;
+        console.log(this.lecturer);
         
-        this.profileForm.setValue({username:this.usernameValue,firstName:this.student.studentFirstName,
-      lastName:this.student.studentLastName,courseName:this.student.course.courseName});
-      this.url=this.student.image.userImage;
+        this.profileForm.setValue({username:this.usernameValue,firstName:this.lecturer.lecturerFirstName,
+      lastName:this.lecturer.lecturerLastName,courseName:this.lecturer.course.courseName});
+      this.url=this.lecturer.image.userImage;
        
       },
       err => console.log(err)

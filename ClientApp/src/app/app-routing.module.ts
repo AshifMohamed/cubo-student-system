@@ -11,6 +11,8 @@ import { LecturerLayoutComponent } from './layout/lecturer-layout/lecturer-layou
 import { StudentLayoutComponent } from './layout/student-layout/student-layout.component';
 import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
 import { HomeComponent } from './home/home.component';
+import { RedirectAuthGuard } from './helpers/redirect-auth-guard.service';
+import { HOME_ROUTES } from './app-routing-home';
 
 // const routes: Routes = [
 
@@ -26,9 +28,9 @@ import { HomeComponent } from './home/home.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full', },
-  { path: 'home',  component: HomeComponent },
-  { path: 'login',  component: LoginComponent },
-  { path: 'register',  component: RegisterComponent },
+  // { path: 'home',  component: HomeComponent,children: HOME_ROUTES,canActivate: [RedirectAuthGuard] },
+  { path: 'login',  component: LoginComponent,canActivate: [RedirectAuthGuard] },
+  { path: 'register',  component: RegisterComponent,canActivate: [RedirectAuthGuard] },
   { path: 'lecturer', component: LecturerLayoutComponent, data: { title: 'lecturer' }, children: LECTURER_ROUTES,canActivate: [AuthGuard] },
   { path: 'student', component: StudentLayoutComponent, data: { title: 'student' }, children: STUDENT_ROUTES,canActivate: [AuthGuard] },
   { path: 'admin', component: AdminLayoutComponent, data: { title: 'admin' }, children: ADMIN_ROUTES,canActivate: [AuthGuard] }

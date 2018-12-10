@@ -47,7 +47,7 @@ namespace ServerApp.Services.Service_Implementations
             _repoWrapper.Student.Delete(student);
         }
 
-        public IEnumerable<Student> GetAllStudent()
+        public IEnumerable<Student> GetAllStudents()
         {
             return _repoWrapper.Student.FindAll();
         }

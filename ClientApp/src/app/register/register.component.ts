@@ -27,6 +27,7 @@ export class RegisterComponent implements OnInit {
   lcLastName = new FormControl("", Validators.required);
   lcCourseName = new FormControl("", Validators.required);
   salary = new FormControl("", Validators.required);
+  lcUsername = new FormControl("", Validators.required);
 
   user:User={userName:null,password:null,role:null};
   course:Course={courseId:null,courseName:null};
@@ -54,8 +55,12 @@ export class RegisterComponent implements OnInit {
       'lcFirstName': this.lcFirstName,
       'lcLastName': this.lcLastName,
       'lcCourseName':this.lcCourseName,
-      'salary':this.salary
+      'salary':this.salary,
+      'lcUsername' : this.lcUsername
   });
+
+  this.stdUrl="assets/img/Profile.png";
+  this.lecUrl="assets/img/Profile.png";
 }
 
   ngOnInit() {
@@ -66,10 +71,13 @@ export class RegisterComponent implements OnInit {
 
   addLecturer(){
 
+    this.lecturer.lecturerId=0;
     this.lecturer.lecturerFirstName=this.lecturerForm.get("lcFirstName").value;
     this.lecturer.lecturerLastName=this.lecturerForm.get("lcLastName").value;
     this.lecturer.lecturerSalary=this.lecturerForm.get("salary").value;
     this.lecturer.lecturerCourse=this.lecturerForm.get("lcCourseName").value;
+    this.lecturer.userName=this.lecturerForm.get("lcUsername").value;
+    this.image.userImage =this.lecUrl as string;
 
     this.lecturer.image=this.image;
     this.lecturer.lecturerImage=0;
@@ -84,7 +92,8 @@ export class RegisterComponent implements OnInit {
     this.student.studentFirstName=this.studentForm.get("stFirstName").value;
     this.student.studentLastName=this.studentForm.get("stLastName").value;
     this.student.studentCourse=this.studentForm.get("stCourseName").value;
-   
+    this.image.userImage =this.stdUrl as string;
+
     this.student.image=this.image;
     this.student.studentImage=0;
     this.student.course=this.courses.find(f => f.courseId== this.student.studentCourse) as Course;
@@ -151,7 +160,7 @@ export class RegisterComponent implements OnInit {
 
       reader.onload = (event) => { // called once readAsDataURL is completed
 
-        this.stdUrl =(<FileReader> event.target).result;
+        this.lecUrl =(<FileReader> event.target).result;
         this.image.userImage =this.lecUrl as string
       }
 

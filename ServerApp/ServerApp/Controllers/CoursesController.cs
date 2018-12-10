@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServerApp.Models;
+using ServerApp.Services;
 
 namespace ServerApp.Controllers
 {
@@ -13,20 +14,18 @@ namespace ServerApp.Controllers
     [ApiController]
     public class CoursesController : ControllerBase
     {
-        private readonly RepositoryContext _context;
+        private readonly ICourseDBService courseService;
 
-        public CoursesController(RepositoryContext context)
+        public CoursesController(ICourseDBService courseService)
         {
-            _context = context;
+            this.courseService = courseService;
         }
 
         // GET: api/Courses
         [HttpGet]
         public IEnumerable<Course> GetCourse()
-        {
-            Console.WriteLine("Server Came");
-            Console.WriteLine("=================================");
-            return _context.Course;
+        {           
+            return courseService.GetAllCourses();
         }
 
         // GET: api/Courses/5
@@ -38,7 +37,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var course = await _context.Course.FindAsync(id);
+            var course = courseService.GetCourse(id);
 
             if (course == null)
             {
@@ -52,33 +51,22 @@ namespace ServerApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCourse([FromRoute] string id, [FromBody] Course course)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             if (id != course.CourseId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(course).State = EntityState.Modified;
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            try
+            if (!courseService.CheckCourseExists(course.CourseId))
             {
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CourseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            courseService.UpdateCourse(id, course);
+            courseService.SaveCourse();
 
             return Ok();
         }
@@ -87,13 +75,18 @@ namespace ServerApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PostCourse([FromBody] Course course)
         {
+            if (courseService.CheckCourseExists(course.CourseId))
+            {
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Course.Add(course);
-            await _context.SaveChangesAsync();
+            courseService.CreateCourse(course);
+            courseService.SaveCourse();
 
             return CreatedAtAction("GetCourse", new { id = course.CourseId }, course);
         }
@@ -102,26 +95,17 @@ namespace ServerApp.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse([FromRoute] string id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var course = await _context.Course.FindAsync(id);
+            var course = courseService.GetCourse(id);
             if (course == null)
             {
                 return NotFound();
             }
 
-            _context.Course.Remove(course);
-            await _context.SaveChangesAsync();
+            courseService.DeleteCourse(course);
+            courseService.SaveCourse();
 
             return Ok(course);
         }
-
-        private bool CourseExists(string id)
-        {
-            return _context.Course.Any(e => e.CourseId == id);
-        }
+      
     }
 }

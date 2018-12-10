@@ -44,7 +44,7 @@ namespace ServerApp.Extensions
 
         public static void ConfigureMySqlContext(this IServiceCollection services, IConfiguration config)
         {
-            var connectionString = config["mysqlconnection:connectionString"];
+            var connectionString = config["ConnectionStrings:DatabaseContext"];
             services.AddDbContext<RepositoryContext>(o => o.UseMySql(connectionString));
         }
 
@@ -56,6 +56,21 @@ namespace ServerApp.Extensions
         public static void ConfigureStudentService(this IServiceCollection services)
         {
             services.AddScoped<IStudentDBService, StudentDBService>();
+        }
+
+        public static void ConfigureLecturerService(this IServiceCollection services)
+        {
+            services.AddScoped<ILecturerDBService, LecturerDBService>();
+        }
+
+        public static void ConfigureUserService(this IServiceCollection services)
+        {
+            services.AddScoped<IUserDBService, UserDBService>();
+        }
+
+        public static void ConfigureCourseService(this IServiceCollection services)
+        {
+            services.AddScoped<ICourseDBService, CourseDBService>();
         }
     }
 }

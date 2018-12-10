@@ -2,6 +2,7 @@ import { Component, AfterViewInit } from '@angular/core';
 import { startWith, delay } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { Helpers } from './helpers/helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent implements AfterViewInit {
   subscription: Subscription;
   authentication: boolean;
 
-  constructor(private helpers: Helpers) {
+  constructor(private helpers: Helpers, private route:Router) {
 
   }
 
@@ -30,6 +31,13 @@ export class AppComponent implements AfterViewInit {
 
     this.subscription.unsubscribe();
 
+  }
+
+  onLogout(){
+
+    console.log("Logout")
+    this.helpers.logout();
+    this.route.navigate(['/login']);
   }
 
 }

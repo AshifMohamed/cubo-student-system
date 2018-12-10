@@ -12,7 +12,7 @@ namespace ServerApp.Services
 
         void CreateStudent(Student student);
 
-        IEnumerable<Student> GetAllStudent();
+        IEnumerable<Student> GetAllStudents();
 
         Student GetStudent(string id);
         

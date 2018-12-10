@@ -33,6 +33,8 @@ import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.compone
 import { HomeComponent } from './home/home.component';
 import { Helpers } from './helpers/helper';
 import { AuthGuard } from './helpers/canActivateAuthGuard';
+import { RedirectAuthGuard } from './helpers/redirect-auth-guard.service';
+import { HomeLayoutComponent } from './layout/home-layout/home-layout.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,7 @@ import { AuthGuard } from './helpers/canActivateAuthGuard';
     StudentLayoutComponent,
     AdminLayoutComponent,
     HomeComponent,
+    HomeLayoutComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,7 @@ import { AuthGuard } from './helpers/canActivateAuthGuard';
     MatTableModule,
     MatSidenavModule
   ],
-  providers: [AuthService,CourseService,StudentService,LecturerService,Helpers,AuthGuard],
+  providers: [AuthService,CourseService,StudentService,LecturerService,Helpers,AuthGuard,RedirectAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

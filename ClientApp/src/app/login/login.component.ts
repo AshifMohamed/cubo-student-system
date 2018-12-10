@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
         console.log(this.user);
         this.userService.changeUser(this.user);
         this.helpers.setToken(this.user);
-        this.navigate(this.user.role);
+        this.helpers.navigate(this.user.role.toLowerCase());
       }
       else{
         this.route.navigate(['/login']);
@@ -57,19 +57,19 @@ export class LoginComponent implements OnInit {
 
   }
 
-  navigate(role: string):void{
+  // navigate(role: string):void{
 
-    switch(role){
+  //   switch(role){
 
-      case "Student" :  this.route.navigate(['/student']);
-                        break;
-      case "Lecturer" :  this.route.navigate(['/lecturer']);
-                        break;
-      case "Admin" :  this.route.navigate(['/admin']);
-                        break;
+  //     case "student" :  this.route.navigate(['/student']);
+  //                       break;
+  //     case "lecturer" :  this.route.navigate(['/lecturer']);
+  //                       break;
+  //     case "admin" :  this.route.navigate(['/admin']);
+  //                       break;
 
-    }
+  //   }
 
-  }
+  // }
 
 }

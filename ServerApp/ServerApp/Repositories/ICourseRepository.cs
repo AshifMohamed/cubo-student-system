@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace ServerApp.Interfaces
 {
-    public interface ILoginRepository : IRepositoryBase<User>
+    public interface ICourseRepository : IRepositoryBase<Course>
     {
-
+        Course FindCourse(string id);
     }
 }

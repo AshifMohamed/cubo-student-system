@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace ServerApp.Interfaces
 {
-    public interface ICourseRepository : IRepositoryBase<Course>
+    public interface IUserRepository : IRepositoryBase<User>
     {
-
+        User FindUser(string username);
+        bool UserExists(string username, string password);
     }
 }

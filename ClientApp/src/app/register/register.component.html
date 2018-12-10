@@ -1,3 +1,4 @@
+<app-home-layout></app-home-layout>
 <div class="container">
   <div class="row h-100">
     <div class="col-sm-12 my-auto">
@@ -111,6 +112,17 @@
                                 {{course.courseName}}
                               </mat-option>
                             </mat-select>
+                          </mat-form-field>
+
+                          <mat-form-field class="example-full-width text-dark">
+                            <input
+                              matInput
+                              placeholder="Username"
+                              formControlName="lcUsername"
+                            />
+                            <mat-error *ngIf="lcUsername.hasError('required')">
+                              Username <strong>required</strong>
+                            </mat-error>
                           </mat-form-field>
 
                   </div>

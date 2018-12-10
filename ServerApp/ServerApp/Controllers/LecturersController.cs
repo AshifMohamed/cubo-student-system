@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServerApp.Models;
+using ServerApp.Services;
 
 namespace ServerApp.Controllers
 {
@@ -13,30 +14,30 @@ namespace ServerApp.Controllers
     [ApiController]
     public class LecturersController : ControllerBase
     {
-        private readonly RepositoryContext _context;
+        private readonly ILecturerDBService lecturerService;
 
-        public LecturersController(RepositoryContext context)
+        public LecturersController(ILecturerDBService lecturerService)
         {
-            _context = context;
+            this.lecturerService = lecturerService;
         }
 
         // GET: api/Lecturers
         [HttpGet]
         public IEnumerable<Lecturer> GetLecturer()
         {
-            return _context.Lecturer;
+            return lecturerService.GetAllLecturers();
         }
 
         // GET: api/Lecturers/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetLecturer([FromRoute] int id)
+        public async Task<IActionResult> GetLecturer([FromRoute] string id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var lecturer = await _context.Lecturer.FindAsync(id);
+            var lecturer = lecturerService.GetLecturer(id);
 
             if (lecturer == null)
             {
@@ -50,76 +51,61 @@ namespace ServerApp.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLecturer([FromRoute] int id, [FromBody] Lecturer lecturer)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             if (id != lecturer.LecturerId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(lecturer).State = EntityState.Modified;
-
-            try
+            if (!ModelState.IsValid)
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LecturerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest(ModelState);
             }
 
-            return NoContent();
+            if (!lecturerService.CheckLecturerExists(lecturer.LecturerId))
+            {
+                return NotFound();
+            }
+            lecturerService.UpdateLecturer(id, lecturer);
+            lecturerService.SaveLecturer();
+
+            return Ok();
         }
 
         // POST: api/Lecturers
         [HttpPost]
         public async Task<IActionResult> PostLecturer([FromBody] Lecturer lecturer)
         {
+            if (lecturerService.CheckLecturerExists(lecturer.LecturerId))
+            {
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
+            }
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Lecturer.Add(lecturer);
-            await _context.SaveChangesAsync();
+            lecturerService.CreateLecturer(lecturer);
+            lecturerService.SaveLecturer();
 
             return CreatedAtAction("GetLecturer", new { id = lecturer.LecturerId }, lecturer);
         }
 
         // DELETE: api/Lecturers/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLecturer([FromRoute] int id)
+        public async Task<IActionResult> DeleteLecturer([FromRoute] string id)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var lecturer = await _context.Lecturer.FindAsync(id);
+            var lecturer = lecturerService.GetLecturer(id);
             if (lecturer == null)
             {
                 return NotFound();
             }
 
-            _context.Lecturer.Remove(lecturer);
-            await _context.SaveChangesAsync();
+            lecturerService.DeleteLecturer(lecturer);
+            lecturerService.SaveLecturer();
 
             return Ok(lecturer);
         }
 
-        private bool LecturerExists(int id)
-        {
-            return _context.Lecturer.Any(e => e.LecturerId == id);
-        }
     }
 }

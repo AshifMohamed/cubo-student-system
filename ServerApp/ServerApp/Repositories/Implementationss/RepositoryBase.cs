@@ -29,12 +29,7 @@ namespace ServerApp.Interfaces
         public IEnumerable<T> FindAll()
         {
             return this.RepositoryContext.Set<T>();
-        }
-
-        public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression)
-        {
-            return this.RepositoryContext.Set<T>().Where(expression);
-        }
+        }       
 
         public void Save()
         {

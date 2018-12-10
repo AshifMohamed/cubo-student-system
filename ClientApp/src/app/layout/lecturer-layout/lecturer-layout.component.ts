@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Helpers } from '../../helpers/helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lecturer-layout',
@@ -7,9 +9,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LecturerLayoutComponent implements OnInit {
 
-  constructor() { }
+  constructor(private helpers: Helpers, private route:Router) {
 
+  }
   ngOnInit() {
   }
 
+  onLogout(){
+
+    console.log("Logout")
+    this.helpers.logout();
+    this.route.navigate(['/login']);
+  }
 }

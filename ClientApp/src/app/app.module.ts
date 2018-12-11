@@ -21,6 +21,8 @@ import { LecturerService } from './Services/lecturer.service';
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatTableModule} from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
+
 import { LecturerHomeComponent } from './lecturer-home/lecturer-home.component';
 import { ViewStudentsComponent } from './view-students/view-students.component';
 import { CourseHomeComponent } from './course-home/course-home.component';
@@ -35,6 +37,8 @@ import { Helpers } from './helpers/helper';
 import { AuthGuard } from './helpers/canActivateAuthGuard';
 import { RedirectAuthGuard } from './helpers/redirect-auth-guard.service';
 import { HomeLayoutComponent } from './layout/home-layout/home-layout.component';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +56,8 @@ import { HomeLayoutComponent } from './layout/home-layout/home-layout.component'
     AdminLayoutComponent,
     HomeComponent,
     HomeLayoutComponent,
+    ErrorDialogComponent,
+    SuccessDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -66,8 +72,10 @@ import { HomeLayoutComponent } from './layout/home-layout/home-layout.component'
     MatButtonModule,
     MatCardModule,
     MatTableModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatDialogModule
   ],
+  entryComponents: [ErrorDialogComponent,SuccessDialogComponent],
   providers: [AuthService,CourseService,StudentService,LecturerService,Helpers,AuthGuard,RedirectAuthGuard],
   bootstrap: [AppComponent]
 })

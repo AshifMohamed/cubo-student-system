@@ -9,8 +9,8 @@ namespace ServerApp.Interfaces
 {
     public interface IStudentRepository : IRepositoryBase<Student>
     {
-        Student FindStudent(string id);
-        bool StudentExists(string id);
-        int GetCurrentYearStdCount();
+        Task<Student> FindStudent(string id);
+        Task<bool> StudentExists(string id);
+        Task<int> GetCurrentYearStdCount();
     }
 }

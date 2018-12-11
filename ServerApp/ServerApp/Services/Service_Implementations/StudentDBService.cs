@@ -19,15 +19,15 @@ namespace ServerApp.Services.Service_Implementations
             _repoWrapper = repositoryWrapper;
         }
 
-        public bool CheckStudentExists(string id)
+        public async Task<bool> CheckStudentExists(string id)
         {
-            return _repoWrapper.Student.CheckRecordExists(e => e.StudentId.Equals(id));
+            return await _repoWrapper.Student.FindAsync(e => e.StudentId.Equals(id));
         }
 
-        public void CreateStudent(Student student)
+        public async Task CreateStudent(Student student)
         {
             student.joinedYear = DateHelper.GetCurrentyear();
-            var count = _repoWrapper.Student.GetCurrentYearStdCount() + 1;
+            var count = await _repoWrapper.Student.GetCurrentYearStdCount() + 1;
             student.StudentId = student.StudentCourse + student.joinedYear + count;
 
             var user = new User
@@ -47,21 +47,21 @@ namespace ServerApp.Services.Service_Implementations
             _repoWrapper.Student.Delete(student);
         }
 
-        public IEnumerable<Student> GetAllStudents()
+        public async Task<IEnumerable<Student>> GetAllStudents()
         {
-            return _repoWrapper.Student.FindAll();
+            return await _repoWrapper.Student.FindAllAsync();
         }
 
-        public Student GetStudent(string id)
+        public async Task<Student> GetStudent(string id)
         {            
-            return _repoWrapper.Student.FindStudent(id);       
+            return await _repoWrapper.Student.FindStudent(id);       
         }
 
-        public void SaveStudent()
+        public async Task SaveStudent()
         {
             try
             {
-                _repoWrapper.Student.Save();
+                await _repoWrapper.Student.SaveAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {

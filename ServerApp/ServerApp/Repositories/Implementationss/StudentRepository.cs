@@ -14,26 +14,26 @@ namespace ServerApp.Interfaces.Implementationss
         {
         }
 
-        public Student FindStudent(string id)
+        public async Task<Student> FindStudent(string id)
         {
-             return RepositoryContext.Student
+             return await RepositoryContext.Student
                 .Where(s => s.StudentId.Equals(id))
                 .Include(s => s.Image)
                 .Include(s => s.Course)
-                .First();
+                .FirstAsync();
         }
 
-        public int GetCurrentYearStdCount()
+        public async Task<int> GetCurrentYearStdCount()
         {
             string currentYear = DateTime.Now.Year.ToString();
-             return RepositoryContext.Student
+             return await RepositoryContext.Student
                      .Where(s => s.joinedYear.Equals(currentYear))
-                     .Count();
+                     .CountAsync();
         }
 
-        public bool StudentExists(string id)
+        public async Task<bool> StudentExists(string id)
         {
-             return RepositoryContext.Student.Any(e => e.StudentId == id);
+             return await RepositoryContext.Student.AnyAsync(e => e.StudentId == id);
         }
     }
 }

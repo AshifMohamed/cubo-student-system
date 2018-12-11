@@ -10,16 +10,16 @@ namespace ServerApp.Services
     {
         void DeleteStudent(Student student);
 
-        void CreateStudent(Student student);
+        Task CreateStudent(Student student);
 
-        IEnumerable<Student> GetAllStudents();
+        Task<IEnumerable<Student>> GetAllStudents();
 
-        Student GetStudent(string id);
+        Task<Student> GetStudent(string id);
         
         void UpdateStudent(string id, Student student);
        
-        void SaveStudent();
+        Task SaveStudent();
 
-        bool CheckStudentExists(string id);
+        Task<bool> CheckStudentExists(string id);
     }
 }

@@ -10,7 +10,7 @@ using ServerApp.Services;
 
 namespace ServerApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/courses")]
     [ApiController]
     public class CoursesController : ControllerBase
     {
@@ -23,9 +23,9 @@ namespace ServerApp.Controllers
 
         // GET: api/Courses
         [HttpGet]
-        public IEnumerable<Course> GetCourse()
+        public async Task<IEnumerable<Course>> GetCourse()
         {           
-            return courseService.GetAllCourses();
+            return await courseService.GetAllCourses();
         }
 
         // GET: api/Courses/5
@@ -37,7 +37,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var course = courseService.GetCourse(id);
+            var course = await courseService.GetCourse(id);
 
             if (course == null)
             {
@@ -61,12 +61,12 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!courseService.CheckCourseExists(course.CourseId))
+            if (!await courseService.CheckCourseExists(course.CourseId))
             {
                 return NotFound();
             }
             courseService.UpdateCourse(id, course);
-            courseService.SaveCourse();
+            await courseService.SaveCourse();
 
             return Ok();
         }
@@ -75,18 +75,19 @@ namespace ServerApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PostCourse([FromBody] Course course)
         {
-            if (courseService.CheckCourseExists(course.CourseId))
+            if (await courseService.CheckCourseExists(course.CourseId) ||
+                await courseService.CheckCourseNameExists(course.CourseName))
             {
                 return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
-
+       
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             courseService.CreateCourse(course);
-            courseService.SaveCourse();
+            await courseService.SaveCourse();
 
             return CreatedAtAction("GetCourse", new { id = course.CourseId }, course);
         }
@@ -95,14 +96,14 @@ namespace ServerApp.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCourse([FromRoute] string id)
         {
-            var course = courseService.GetCourse(id);
+            var course = await courseService.GetCourse(id);
             if (course == null)
             {
                 return NotFound();
             }
 
             courseService.DeleteCourse(course);
-            courseService.SaveCourse();
+            await courseService.SaveCourse();
 
             return Ok(course);
         }

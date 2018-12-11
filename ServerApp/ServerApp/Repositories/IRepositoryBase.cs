@@ -8,12 +8,12 @@ namespace ServerApp.Interfaces
 {
     public interface IRepositoryBase<T>
     {
-        IEnumerable<T> FindAll();
+        Task<IEnumerable<T>> FindAllAsync();
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);
-        void Save();
-        bool CheckRecordExists(Expression<Func<T, bool>> expression);
+        Task SaveAsync();
+        Task<bool> FindAsync(Expression<Func<T, bool>> expression);
 
     }
 }

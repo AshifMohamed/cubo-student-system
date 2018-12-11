@@ -1,6 +1,6 @@
 <app-home-layout></app-home-layout>
 <div class="container">
-  <div class="row h-100">
+  <div class="row h-75">
     <div class="col-sm-12 my-auto">
 
       <div class="mx-auto w-50">
@@ -37,7 +37,8 @@
                     </div>
 
                         <div class="col-md-4 offset-md-8">
-                        <button class="example-full-width" type="submit" mat-raised-button color="primary">LOGIN</button>
+                        <button class="example-full-width" type="submit" mat-raised-button color="primary"
+                        [disabled]="!loginForm.valid">LOGIN</button>
                         </div>
 
                   </form>

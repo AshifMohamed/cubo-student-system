@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CourseService } from '../Services/course.service';
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Course } from '../Models/Course';
+import { Helpers } from '../helpers/helper';
 
 @Component({
   selector: 'app-course-home',
@@ -19,7 +20,7 @@ export class CourseHomeComponent implements OnInit {
   isProcessing=false;
   course:Course={courseId:null,courseName:null};
 
-  constructor(fb:FormBuilder, private courseService:CourseService) { 
+  constructor(fb:FormBuilder, private courseService:CourseService, private helpers:Helpers) { 
 
     this.courseForm = fb.group({
       courseId: this.courseId,
@@ -37,6 +38,7 @@ export class CourseHomeComponent implements OnInit {
 
       console.log(data);
       this.dataSource=data;
+      console.log(this.dataSource);
 
     },err=>console.log(err));
       
@@ -57,11 +59,23 @@ export class CourseHomeComponent implements OnInit {
 
     this.courseService.postCourse(this.course).subscribe(data=>{
       console.log(data);
-
-      this.courseForm.setValue({courseId:"",courseName:""});
+      // this.dataSource.push(data);
+      // this.courseForm.setValue({courseId:"",courseName:""});
       window.location.href = "http://localhost:4200/admin/course"
 
-    },err=>console.log(err));
+    },err=>{
+      console.log(err)
+
+      if(err.status && err.status == 409 ){
+
+        let msg='Course Already Exists'
+        this.helpers.openErrorDialog(msg);
+
+      }else{
+      this.helpers.openErrorDialog(err);
+      }
+
+    });
   }
 
 }

@@ -10,7 +10,7 @@ using ServerApp.Services;
 
 namespace ServerApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -23,9 +23,9 @@ namespace ServerApp.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetUser()
+        public async Task<IEnumerable<User>> GetUser()
         {
-            return userService.GetAllUsers();
+            return await userService.GetAllUsers();
         }
 
         // GET: api/Users/5
@@ -37,7 +37,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user =  userService.GetUser(id);
+            var user = await userService.GetUser(id);
 
             if (user == null)
             {
@@ -61,12 +61,12 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!userService.CheckUserExists(user))
+            if (!await userService.CheckUserExists(user))
             {
                 return NotFound();
             }
             userService.UpdateUser(id, user);
-            userService.SaveUser();
+            await userService.SaveUser();
 
             return Ok();
 
@@ -76,7 +76,7 @@ namespace ServerApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] User user)
         {
-            if (userService.CheckUsernameExists(user.UserName))
+            if (await userService.CheckUsernameExists(user.UserName))
             {
                 return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
@@ -87,7 +87,7 @@ namespace ServerApp.Controllers
             }
 
             userService.CreateUser(user);
-            userService.SaveUser();
+            await userService.SaveUser();
 
             return CreatedAtAction("GetUser", new { id = user.UserName }, user);
         }
@@ -96,14 +96,14 @@ namespace ServerApp.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser([FromRoute] string id)
         {
-            var user = userService.GetUser(id);
+            var user = await userService.GetUser(id);
             if (user == null)
             {
                 return NotFound();
             }
 
             userService.DeleteUser(user);
-            userService.SaveUser();
+            await userService.SaveUser();
 
             return Ok(user);
         }

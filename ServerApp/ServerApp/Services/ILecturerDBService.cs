@@ -12,14 +12,14 @@ namespace ServerApp.Services
 
         void CreateLecturer(Lecturer lecturer);
 
-        IEnumerable<Lecturer> GetAllLecturers();
+        Task<IEnumerable<Lecturer>> GetAllLecturers();
 
-        Lecturer GetLecturer(string lecUsername);
+        Task<Lecturer> GetLecturer(string lecUsername);
 
         void UpdateLecturer(int id, Lecturer lecturer);
 
-        void SaveLecturer();
+        Task SaveLecturer();
 
-        bool CheckLecturerExists(int id);
+        Task<bool> CheckLecturerExists(int id);
     }
 }

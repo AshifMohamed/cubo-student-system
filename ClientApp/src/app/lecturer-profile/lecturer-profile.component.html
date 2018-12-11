@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="row h-100">
+  <div class="row h-75">
     <div class="col-sm-12 my-auto">
 
       <div class="mx-auto w-50">
@@ -8,10 +8,12 @@
   <form [formGroup]="profileForm">
   <mat-card-header>
     <mat-card-title>
-      <input class="font-weight-bold" type="text" formControlName="username"  readonly style="border:0">
+      <input class="font-weight-bold" type="text" readonly  style="border:0">
     </mat-card-title>
   </mat-card-header>
+  <div class="img-class">
   <img class="img-class" mat-card-image [src]="url" alt="Profile Pic">
+  </div>
   <mat-card-content>
           <ul class="list-group">
           <li class="list-group-item d-flex justify-content-between align-items-center">

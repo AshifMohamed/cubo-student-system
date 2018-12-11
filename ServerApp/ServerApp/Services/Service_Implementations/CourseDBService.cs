@@ -17,14 +17,14 @@ namespace ServerApp.Services.Service_Implementations
             _repoWrapper = repositoryWrapper;
         }
 
-        public bool CheckCourseExists(string id)
+        public async Task<bool> CheckCourseExists(string id)
         {
-            return _repoWrapper.Course.CheckRecordExists(c => c.CourseId.Equals(id));
+            return await _repoWrapper.Course.FindAsync(c => c.CourseId.Equals(id));
         }
 
-        public bool CheckCourseNameExists(string courseName)
+        public async Task<bool> CheckCourseNameExists(string courseName)
         {
-            return _repoWrapper.Course.CheckRecordExists(c => c.CourseName.Equals(courseName));
+            return await _repoWrapper.Course.FindAsync(c => c.CourseName.Equals(courseName));
         }
 
         public void CreateCourse(Course course)
@@ -37,21 +37,21 @@ namespace ServerApp.Services.Service_Implementations
             _repoWrapper.Course.Delete(course);
         }
 
-        public IEnumerable<Course> GetAllCourses()
+        public async Task<IEnumerable<Course>> GetAllCourses()
         {
-            return _repoWrapper.Course.FindAll();
+            return await _repoWrapper.Course.FindAllAsync();
         }
 
-        public Course GetCourse(string id)
+        public async Task<Course> GetCourse(string id)
         {
-            return _repoWrapper.Course.FindCourse(id);
+            return await _repoWrapper.Course.FindCourse(id);
         }
 
-        public void SaveCourse()
+        public async Task SaveCourse()
         {
             try
             {
-                _repoWrapper.Lecturer.Save();
+               await _repoWrapper.Lecturer.SaveAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {

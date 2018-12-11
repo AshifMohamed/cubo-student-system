@@ -8,6 +8,8 @@ import { StudentService } from '../Services/student.service';
 import { AuthService } from '../Services/auth.service';
 import { LecturerService } from '../Services/lecturer.service';
 import { Lecturer } from '../Models/Lecturer';
+import { Helpers } from '../helpers/helper';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -35,7 +37,8 @@ export class LecturerProfileComponent implements OnInit {
 
   constructor(fb:FormBuilder,
     private lecturerService: LecturerService,
-    private userService: AuthService
+    private userService: AuthService, private helpers: Helpers,
+    private routes:Router
   ) {
 
     this.profileForm=fb.group({
@@ -50,20 +53,18 @@ export class LecturerProfileComponent implements OnInit {
 
   ngOnInit() {
     
+    if(this.helpers.isAuthenticated()){
     this.getLecturer();
+    }else{
+
+      this.routes.navigate(['/login']);
+    }
   }
 
    getUsername():string{
 
-    this.userService.currentUser.subscribe( user => {
-      
-      this.usernameValue=user.userName;
-      console.log(user);
-       return user.userName;
-      }
-    );
-
-    return  this.usernameValue;
+    this.usernameValue=this.helpers.getUsername();
+    return this.usernameValue;
   }
 
   getLecturer() {

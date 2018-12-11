@@ -4,6 +4,8 @@ import { User } from '../Models/User';
 import { AuthService } from '../Services/auth.service';
 import { Router } from '@angular/router';
 import { Helpers } from '../helpers/helper';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +22,7 @@ export class LoginComponent implements OnInit {
   test:any;
 
   constructor(fb:FormBuilder, private userService:AuthService, private route:Router,
-    private helpers: Helpers) {
+    private helpers: Helpers,private dialog: MatDialog) {
     this.loginForm = fb.group({
       'username': this.username,
       'password': this.password
@@ -47,7 +49,10 @@ export class LoginComponent implements OnInit {
         this.helpers.navigate(this.user.role.toLowerCase());
       }
       else{
-        this.route.navigate(['/login']);
+        let errorMsg="Invalid Username or Password";
+        console.log(errorMsg); 
+        this.helpers.openErrorDialog(errorMsg);
+        // this.route.navigate(['/login']);
       }
     },
       err=>{
@@ -57,19 +62,17 @@ export class LoginComponent implements OnInit {
 
   }
 
-  // navigate(role: string):void{
+  // openErrorDialog(){
 
-  //   switch(role){
+  //   const dialogRef = this.dialog.open(ErrorDialogComponent, {
+  //     width: '300px',
+  //     data:this.errorMsg
+  //   });
 
-  //     case "student" :  this.route.navigate(['/student']);
-  //                       break;
-  //     case "lecturer" :  this.route.navigate(['/lecturer']);
-  //                       break;
-  //     case "admin" :  this.route.navigate(['/admin']);
-  //                       break;
-
-  //   }
-
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     console.log('The dialog was closed');
+  //   });
   // }
 
-}
+  }
+

@@ -1,4 +1,5 @@
-﻿using ServerApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ServerApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,14 +27,14 @@ namespace ServerApp.Interfaces
             this.RepositoryContext.Set<T>().Remove(entity);
         }
 
-        public IEnumerable<T> FindAll()
+        public async Task<IEnumerable<T>> FindAllAsync()
         {
-            return this.RepositoryContext.Set<T>();
+            return await this.RepositoryContext.Set<T>().ToListAsync();
         }       
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            this.RepositoryContext.SaveChanges();
+           await this.RepositoryContext.SaveChangesAsync();
         }
 
         public void Update(T entity)
@@ -41,9 +42,9 @@ namespace ServerApp.Interfaces
             this.RepositoryContext.Set<T>().Update(entity);
         }
 
-        public bool CheckRecordExists(Expression<Func<T, bool>> expression)
+        public async Task<bool> FindAsync(Expression<Func<T, bool>> expression)
         {
-            return RepositoryContext.Set<T>().Any(expression);
+            return await RepositoryContext.Set<T>().AnyAsync(expression);
         }
     }
 }

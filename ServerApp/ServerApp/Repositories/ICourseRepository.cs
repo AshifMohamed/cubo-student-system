@@ -8,6 +8,6 @@ namespace ServerApp.Interfaces
 {
     public interface ICourseRepository : IRepositoryBase<Course>
     {
-        Course FindCourse(string id);
+        Task<Course> FindCourse(string id);
     }
 }

@@ -1,4 +1,5 @@
-﻿using ServerApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ServerApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +14,16 @@ namespace ServerApp.Interfaces.Implementationss
         {
         }       
 
-        public User FindUser(string username)
+        public async Task<User> FindUser(string username)
         {
-            return RepositoryContext.User
+            return await RepositoryContext.User
                             .Where(u => u.UserName.Equals(username))                     
-                            .First();
+                            .FirstAsync();
         }
 
-        public bool UserExists(string username, string password)
+        public async Task<bool> UserExists(string username, string password)
         {
-            return RepositoryContext.User.Any(u => u.UserName.Equals(username) &&
+            return await RepositoryContext.User.AnyAsync(u => u.UserName.Equals(username) &&
             u.Password.Equals(password));
         }
     }

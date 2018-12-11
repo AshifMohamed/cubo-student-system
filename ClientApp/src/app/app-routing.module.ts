@@ -27,10 +27,10 @@ import { HOME_ROUTES } from './app-routing-home';
 // ];
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full', },
+  { path: '', redirectTo: '/login', pathMatch: 'full', },
   // { path: 'home',  component: HomeComponent,children: HOME_ROUTES,canActivate: [RedirectAuthGuard] },
   { path: 'login',  component: LoginComponent,canActivate: [RedirectAuthGuard] },
-  { path: 'register',  component: RegisterComponent,canActivate: [RedirectAuthGuard] },
+  // { path: 'register',  component: RegisterComponent,canActivate: [RedirectAuthGuard] },
   { path: 'lecturer', component: LecturerLayoutComponent, data: { title: 'lecturer' }, children: LECTURER_ROUTES,canActivate: [AuthGuard] },
   { path: 'student', component: StudentLayoutComponent, data: { title: 'student' }, children: STUDENT_ROUTES,canActivate: [AuthGuard] },
   { path: 'admin', component: AdminLayoutComponent, data: { title: 'admin' }, children: ADMIN_ROUTES,canActivate: [AuthGuard] }

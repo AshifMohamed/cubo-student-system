@@ -9,10 +9,15 @@ import { Router } from '@angular/router';
 })
 export class LecturerLayoutComponent implements OnInit {
 
+  username:string;
+
   constructor(private helpers: Helpers, private route:Router) {
 
   }
   ngOnInit() {
+    if(this.helpers.isAuthenticated){
+      this.username=this.helpers.getUsername();
+    }
   }
 
   onLogout(){

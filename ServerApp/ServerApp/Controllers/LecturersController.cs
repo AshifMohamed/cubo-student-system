@@ -10,7 +10,7 @@ using ServerApp.Services;
 
 namespace ServerApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/lecturers")]
     [ApiController]
     public class LecturersController : ControllerBase
     {
@@ -23,9 +23,9 @@ namespace ServerApp.Controllers
 
         // GET: api/Lecturers
         [HttpGet]
-        public IEnumerable<Lecturer> GetLecturer()
+        public async Task<IEnumerable<Lecturer>> GetLecturer()
         {
-            return lecturerService.GetAllLecturers();
+            return await lecturerService.GetAllLecturers();
         }
 
         // GET: api/Lecturers/5
@@ -37,7 +37,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var lecturer = lecturerService.GetLecturer(id);
+            var lecturer = await lecturerService.GetLecturer(id);
 
             if (lecturer == null)
             {
@@ -61,12 +61,12 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (!lecturerService.CheckLecturerExists(lecturer.LecturerId))
+            if (!await lecturerService.CheckLecturerExists(lecturer.LecturerId))
             {
                 return NotFound();
             }
             lecturerService.UpdateLecturer(id, lecturer);
-            lecturerService.SaveLecturer();
+            await lecturerService.SaveLecturer();
 
             return Ok();
         }
@@ -75,7 +75,7 @@ namespace ServerApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PostLecturer([FromBody] Lecturer lecturer)
         {
-            if (lecturerService.CheckLecturerExists(lecturer.LecturerId))
+            if (await lecturerService.CheckLecturerExists(lecturer.LecturerId))
             {
                 return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
@@ -86,7 +86,7 @@ namespace ServerApp.Controllers
             }
 
             lecturerService.CreateLecturer(lecturer);
-            lecturerService.SaveLecturer();
+            await lecturerService.SaveLecturer();
 
             return CreatedAtAction("GetLecturer", new { id = lecturer.LecturerId }, lecturer);
         }
@@ -95,14 +95,14 @@ namespace ServerApp.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLecturer([FromRoute] string id)
         {
-            var lecturer = lecturerService.GetLecturer(id);
+            var lecturer = await lecturerService.GetLecturer(id);
             if (lecturer == null)
             {
                 return NotFound();
             }
 
             lecturerService.DeleteLecturer(lecturer);
-            lecturerService.SaveLecturer();
+            await lecturerService.SaveLecturer();
 
             return Ok(lecturer);
         }

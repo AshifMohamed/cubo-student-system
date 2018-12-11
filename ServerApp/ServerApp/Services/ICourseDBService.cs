@@ -12,16 +12,16 @@ namespace ServerApp.Services
 
         void CreateCourse(Course course);
 
-        IEnumerable<Course> GetAllCourses();
+        Task<IEnumerable<Course>> GetAllCourses();
 
-        Course GetCourse(string id);
+        Task<Course> GetCourse(string id);
 
         void UpdateCourse(string id, Course course);
 
-        void SaveCourse();
+        Task SaveCourse();
 
-        bool CheckCourseExists(string id);
+        Task<bool> CheckCourseExists(string id);
 
-        bool CheckCourseNameExists(string courseName);
+        Task<bool> CheckCourseNameExists(string courseName);
     }
 }

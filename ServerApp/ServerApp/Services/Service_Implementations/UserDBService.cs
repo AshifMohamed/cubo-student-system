@@ -17,14 +17,14 @@ namespace ServerApp.Services.Service_Implementations
             _repoWrapper = repositoryWrapper;
         }
 
-        public bool CheckUserExists(User user)
+        public async Task<bool> CheckUserExists(User user)
         {
-            return _repoWrapper.User.UserExists(user.UserName, user.Password);
+            return await _repoWrapper.User.UserExists(user.UserName, user.Password);
         }
 
-        public bool CheckUsernameExists(string username)
+        public async Task<bool> CheckUsernameExists(string username)
         {
-            return _repoWrapper.User.CheckRecordExists(u => u.UserName.Equals(username));
+            return await _repoWrapper.User.FindAsync(u => u.UserName.Equals(username));
         }
 
         public void CreateUser(User user)
@@ -37,21 +37,21 @@ namespace ServerApp.Services.Service_Implementations
             _repoWrapper.User.Delete(user);
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return _repoWrapper.User.FindAll();
+            return await _repoWrapper.User.FindAllAsync();
         }
 
-        public User GetUser(string username)
+        public async Task<User> GetUser(string username)
         {
-            return _repoWrapper.User.FindUser(username);
+            return await _repoWrapper.User.FindUser(username);
         }
 
-        public void SaveUser()
+        public async Task SaveUser()
         {
             try
             {
-                _repoWrapper.User.Save();
+                await _repoWrapper.User.SaveAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {

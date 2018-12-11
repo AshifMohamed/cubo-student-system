@@ -1,4 +1,5 @@
-﻿using ServerApp.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using ServerApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,11 +13,11 @@ namespace ServerApp.Interfaces.Implementationss
         {
         }
 
-        public Course FindCourse(string id)
+        public async Task<Course> FindCourse(string id)
         {
-            return RepositoryContext.Course
-                                       .Where(c => c.CourseId.Equals(id))                                     
-                                       .First();
+            return await RepositoryContext.Course
+                                       .Where(c => c.CourseId.Equals(id))                             
+                                       .FirstAsync();
         }
     }
 }

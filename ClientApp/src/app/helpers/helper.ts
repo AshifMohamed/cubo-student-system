@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { SuccessDialogComponent } from '../success-dialog/success-dialog.component';
 
 @Injectable()
 
@@ -8,7 +11,7 @@ export class Helpers  {
 
     private authenticationChanged = new Subject<boolean>();
 
-    constructor(private route:Router) {
+    constructor(private route:Router,private dialog: MatDialog) {
 
     }
 
@@ -53,6 +56,26 @@ export class Helpers  {
 
     }
 
+    public getUsername():string {
+
+        if( window.localStorage['token'] === undefined || 
+
+            window.localStorage['token'] === null ||
+
+            window.localStorage['token'] === 'null' ||
+
+            window.localStorage['token'] === 'undefined' ||
+
+            window.localStorage['token'] === '') {
+
+            return '';
+
+        }
+
+        let obj = JSON.parse(window.localStorage['token']);
+        return obj.userName;
+    }
+
     public setToken(data:any):void {
 
         this.setStorageToken(JSON.stringify(data));
@@ -92,6 +115,30 @@ export class Helpers  {
     
         }
     
+      }
+
+      openErrorDialog(errorMsg){
+
+        const dialogRef = this.dialog.open(ErrorDialogComponent, {
+          width: '300px',
+          data:errorMsg
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
+      }
+
+      openSuccessDialog(successMsg){
+
+        const dialogRef = this.dialog.open(SuccessDialogComponent, {
+          width: '300px',
+          data:successMsg
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          console.log('The dialog was closed');
+        });
       }
 
 }

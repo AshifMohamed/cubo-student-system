@@ -13,13 +13,13 @@ namespace ServerApp.Interfaces.Implementationss
         {
         }
 
-        public Lecturer FindLecturer(string lecUsername)
+        public async Task<Lecturer> FindLecturer(string lecUsername)
         {
-            return RepositoryContext.Lecturer
+            return await RepositoryContext.Lecturer
                            .Where(l => l.UserName.Equals(lecUsername))
                            .Include(l => l.Image)
                            .Include(l => l.Course)
-                           .First();
+                           .FirstAsync();
         }
     }
 }

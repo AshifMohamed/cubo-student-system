@@ -12,16 +12,16 @@ namespace ServerApp.Services
 
         void CreateUser(User user);
 
-        IEnumerable<User> GetAllUsers();
+        Task<IEnumerable<User>> GetAllUsers();
 
-        User GetUser(string id);
+        Task<User> GetUser(string id);
 
         void UpdateUser(string id, User user);
 
-        void SaveUser();
+        Task SaveUser();
 
-        bool CheckUserExists(User user);
+        Task<bool> CheckUserExists(User user);
 
-        bool CheckUsernameExists(string username);
+        Task<bool> CheckUsernameExists(string username);
     }
 }

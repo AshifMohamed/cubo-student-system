@@ -13,7 +13,7 @@ using ServerApp.Services;
 
 namespace ServerApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/students")]
     [ApiController]
     public class StudentsController : Controller
     {
@@ -25,9 +25,9 @@ namespace ServerApp.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Student> GetStudent()
+        public async Task<IEnumerable<Student>> GetStudent()
         {
-            return studentService.GetAllStudents();
+            return await studentService.GetAllStudents();
         }
 
         [HttpGet("{id}")]
@@ -38,7 +38,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var student = studentService.GetStudent(id);
+            var student = await studentService.GetStudent(id);
 
             if (student == null)
             {
@@ -61,12 +61,12 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }          
 
-            if (!studentService.CheckStudentExists(student.StudentId))
+            if (!await studentService.CheckStudentExists(student.StudentId))
             {
                 return NotFound();
             }
             studentService.UpdateStudent(id, student);
-            studentService.SaveStudent();
+            await studentService.SaveStudent();
 
             return Ok();
         }
@@ -74,7 +74,7 @@ namespace ServerApp.Controllers
         [HttpPost]
         public async Task<IActionResult> PostStudent([FromBody] Student student)
         {
-            if (studentService.CheckStudentExists(student.StudentId))
+            if (await studentService.CheckStudentExists(student.StudentId))
             {
                 return new StatusCodeResult(StatusCodes.Status409Conflict);
             }
@@ -84,8 +84,8 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            studentService.CreateStudent(student);
-            studentService.SaveStudent();
+            await studentService.CreateStudent(student);
+            await studentService.SaveStudent();
 
             return CreatedAtAction("GetStudent", new { id = student.StudentId }, student);
         }
@@ -94,14 +94,14 @@ namespace ServerApp.Controllers
         public async Task<IActionResult> DeleteStudent([FromRoute] string id)
         {
 
-            var student = studentService.GetStudent(id);
+            var student = await studentService.GetStudent(id);
             if (student == null)
             {
                 return NotFound();
             }
 
             studentService.DeleteStudent(student);
-            studentService.SaveStudent();
+            await studentService.SaveStudent();
 
             return Ok(student);
         }

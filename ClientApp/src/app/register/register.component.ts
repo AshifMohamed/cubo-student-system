@@ -10,6 +10,8 @@ import { CourseService } from '../Services/course.service';
 import { FileUploadService } from '../Services/file-upload.service';
 import { Image } from '../Models/Image';
 import { User } from '../Models/User';
+import { Helpers } from '../helpers/helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -44,7 +46,7 @@ export class RegisterComponent implements OnInit {
   fileSelected:File;
 
   constructor(fb: FormBuilder, private lecturerService: LecturerService, private studentService: StudentService,
-  private courseService:CourseService,private fileUploadService:FileUploadService) {
+  private courseService:CourseService,private helpers:Helpers, private routes:Router) {
     this.studentForm = fb.group({
         'stFirstName': this.stFirstName,
         'stLastName': this.stLastName,
@@ -104,18 +106,35 @@ export class RegisterComponent implements OnInit {
 
   saveLecturer(){
 
-    this.lecturerService.postLecturer(this.lecturer).subscribe(data=>
-    console.log(data),
-    err=>console.log(err)
+    this.lecturerService.postLecturer(this.lecturer).subscribe(data=>{
+    console.log(data)
+    let msg="Successfull Registeres Lecturer"
+    this.helpers.openSuccessDialog(msg);
+    this.routes.navigate(['/admin'])
+    },
+    err=>{
+      console.log(err)
+      let msg="Registration Failed"
+      this.helpers.openErrorDialog(msg);
+    }
     ); 
     
   }
 
   saveStudent(){
 
-    this.studentService.postStudent(this.student).subscribe(data=>
-    console.log(data),
-    err=>console.log(err)
+    this.studentService.postStudent(this.student).subscribe(data=>{
+    console.log(data)
+    let msg="Successfull Registeres Student"
+    this.helpers.openSuccessDialog(msg);
+    this.routes.navigate(['/admin'])
+  },
+    err=>{
+      console.log(err)
+      let msg="Registration Failed"
+      this.helpers.openErrorDialog(msg);
+
+    }
     ); 
     
   }

@@ -18,9 +18,9 @@ namespace ServerApp.Services.Service_Implementations
             _repoWrapper = repositoryWrapper;
         }
 
-        public bool CheckLecturerExists(int id)
+        public async Task<bool> CheckLecturerExists(int id)
         {
-            return _repoWrapper.Lecturer.CheckRecordExists(e => e.LecturerId.Equals(id));
+            return await _repoWrapper.Lecturer.FindAsync(e => e.LecturerId.Equals(id));
         }
 
         public void CreateLecturer(Lecturer lecturer)
@@ -43,21 +43,21 @@ namespace ServerApp.Services.Service_Implementations
             _repoWrapper.Lecturer.Delete(lecturer);
         }
 
-        public IEnumerable<Lecturer> GetAllLecturers()
+        public async Task<IEnumerable<Lecturer>> GetAllLecturers()
         {
-            return _repoWrapper.Lecturer.FindAll();
+            return await _repoWrapper.Lecturer.FindAllAsync();
         }
 
-        public Lecturer GetLecturer(string lecUsername)
+        public async Task<Lecturer> GetLecturer(string lecUsername)
         {
-            return _repoWrapper.Lecturer.FindLecturer(lecUsername);
+            return await _repoWrapper.Lecturer.FindLecturer(lecUsername);
         }
 
-        public void SaveLecturer()
+        public async Task SaveLecturer()
         {
             try
             {
-                _repoWrapper.Lecturer.Save();
+               await _repoWrapper.Lecturer.SaveAsync();
             }
             catch (DbUpdateConcurrencyException ex)
             {

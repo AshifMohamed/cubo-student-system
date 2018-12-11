@@ -10,7 +10,7 @@ using ServerApp.Services;
 
 namespace ServerApp.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/login")]
     [ApiController]
     public class LoginController : ControllerBase
     {
@@ -23,22 +23,22 @@ namespace ServerApp.Controllers
 
         // POST: api/Login
         [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] User user)
+        public async Task<User> PostUser([FromBody] User user)
         {          
 
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return null;
             }
 
-            if (userService.CheckUserExists(user))
+            if (await userService.CheckUserExists(user))
             {
-                return Ok(userService.GetUser(user.UserName));
+                return await userService.GetUser(user.UserName);
             }
             
             else
             {
-                return Ok(new User());
+                return null;
             }
             
         }

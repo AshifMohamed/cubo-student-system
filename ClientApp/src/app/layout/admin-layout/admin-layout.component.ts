@@ -9,11 +9,17 @@ import { Router } from '@angular/router';
 })
 export class AdminLayoutComponent implements OnInit {
 
+  username:string;
+
   constructor(private helpers: Helpers, private route:Router) {
 
   }
   
   ngOnInit() {
+
+    if(this.helpers.isAuthenticated){
+      this.username=this.helpers.getUsername();
+    }
   }
 
   onLogout(){

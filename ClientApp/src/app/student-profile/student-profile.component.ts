@@ -6,6 +6,8 @@ import { Student } from "../Models/Student";
 import { FormControl, Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Course } from '../Models/Course';
 import { Image } from '../Models/Image';
+import { Helpers } from '../helpers/helper';
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-student-profile",
@@ -32,7 +34,8 @@ export class StudentProfileComponent implements OnInit {
 
   constructor(fb:FormBuilder,
     private studentService: StudentService,
-    private userService: AuthService
+    private userService: AuthService,private helpers:Helpers,
+    private routes : Router
   ) {
 
     this.profileForm=fb.group({
@@ -47,19 +50,15 @@ export class StudentProfileComponent implements OnInit {
 
   ngOnInit() {
     
+    if(this.helpers.isAuthenticated()){
     this.getStudent();
+    }else{
+      this.routes.navigate(['/login']);
+    }
   }
 
    getUsername():string{
-
-    this.userService.currentUser.subscribe( user => {
-      
-      this.usernameValue=user.userName;
-      console.log(user);
-       return user.userName;
-      }
-    );
-
+     this.usernameValue=this.helpers.getUsername();
     return  this.usernameValue;
   }
 
@@ -76,25 +75,10 @@ export class StudentProfileComponent implements OnInit {
         this.profileForm.setValue({username:this.usernameValue,firstName:this.student.studentFirstName,
       lastName:this.student.studentLastName,courseName:this.student.course.courseName});
       this.url=this.student.image.userImage;
-        this.setProfileDetails();
        
       },
       err => console.log(err)
     );
-  }
-
-  setProfileDetails(){   
-    console.log("set Profile");
-    // this.profileForm.controls["username"].setValue(
-    //   this.usernameValue
-    // );
-
-    // this.profileForm.setValue({username:this.usernameValue,firstName:'this.student.StudentFirstName',
-    //   lastName:'this.student.StudentLastName',courseName:""});
-
-    // this.firstName.setValue(this.student.StudentFirstName);
-    // this.lastName.setValue(this.student.StudentLastName);
-    // this.courseName.setValue(this.student.)
   }
 }
 

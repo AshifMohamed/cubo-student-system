@@ -21,7 +21,6 @@ namespace ServerApp.Controllers
             this.userService = userService;
         }
 
-        // POST: api/Login
         [HttpPost]
         public async Task<User> PostUser([FromBody] User user)
         {          

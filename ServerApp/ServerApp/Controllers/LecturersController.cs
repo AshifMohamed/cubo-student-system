@@ -21,14 +21,12 @@ namespace ServerApp.Controllers
             this.lecturerService = lecturerService;
         }
 
-        // GET: api/Lecturers
         [HttpGet]
         public async Task<IEnumerable<Lecturer>> GetLecturer()
         {
             return await lecturerService.GetAllLecturers();
         }
 
-        // GET: api/Lecturers/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetLecturer([FromRoute] string id)
         {
@@ -47,7 +45,6 @@ namespace ServerApp.Controllers
             return Ok(lecturer);
         }
 
-        // PUT: api/Lecturers/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutLecturer([FromRoute] int id, [FromBody] Lecturer lecturer)
         {
@@ -71,7 +68,6 @@ namespace ServerApp.Controllers
             return Ok();
         }
 
-        // POST: api/Lecturers
         [HttpPost]
         public async Task<IActionResult> PostLecturer([FromBody] Lecturer lecturer)
         {
@@ -91,7 +87,6 @@ namespace ServerApp.Controllers
             return CreatedAtAction("GetLecturer", new { id = lecturer.LecturerId }, lecturer);
         }
 
-        // DELETE: api/Lecturers/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteLecturer([FromRoute] string id)
         {

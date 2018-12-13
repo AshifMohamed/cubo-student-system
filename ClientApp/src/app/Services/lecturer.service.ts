@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Lecturer } from '../Models/Lecturer';
+import { ApiService } from './api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,29 +9,30 @@ import { Lecturer } from '../Models/Lecturer';
 export class LecturerService {
 
   private headers: HttpHeaders;
-  private accessPointUrl: string = 'https://localhost:44316/api/Lecturers';
+  private lecturersUrl: string;
 
-  constructor(private http: HttpClient) {
-    this.headers = new HttpHeaders({'Content-Type': 'application/json; charset=utf-8','Access-Control-Allow-Origin':'*'},
-  );   }
+  constructor(private http: HttpClient, private api:ApiService) {
+    this.headers= api.headers;   
+    this.lecturersUrl=api.rootUrl+'Lecturers';
+}
 
    public postLecturer(lecturer:Lecturer) {
-    return this.http.post(this.accessPointUrl, lecturer, {headers: this.headers});
+    return this.http.post(this.lecturersUrl, lecturer, {headers: this.headers});
   }
 
   public getLecturers() {
-    return this.http.get(this.accessPointUrl, {headers: this.headers});
+    return this.http.get(this.lecturersUrl, {headers: this.headers});
   }
 
   public getLecturer(lecturerId:any) {
-    return this.http.get(this.accessPointUrl + '/' + lecturerId, {headers: this.headers});
+    return this.http.get(this.lecturersUrl + '/' + lecturerId, {headers: this.headers});
   }
 
   public deleteLecturer(lecturerId:any) {
-    return this.http.delete(this.accessPointUrl + '/' + lecturerId, {headers: this.headers});
+    return this.http.delete(this.lecturersUrl + '/' + lecturerId, {headers: this.headers});
   }
 
   public updateLecturer(lecturerId:any) {
-    return this.http.put(this.accessPointUrl + '/' + lecturerId, {headers: this.headers});
+    return this.http.put(this.lecturersUrl + '/' + lecturerId, {headers: this.headers});
   }
 }

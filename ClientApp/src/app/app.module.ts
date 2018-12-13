@@ -39,6 +39,7 @@ import { RedirectAuthGuard } from './helpers/redirect-auth-guard.service';
 import { HomeLayoutComponent } from './layout/home-layout/home-layout.component';
 import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
 import { SuccessDialogComponent } from './success-dialog/success-dialog.component';
+import { ApiService } from './Services/api.service';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,7 @@ import { SuccessDialogComponent } from './success-dialog/success-dialog.componen
     MatDialogModule
   ],
   entryComponents: [ErrorDialogComponent,SuccessDialogComponent],
-  providers: [AuthService,CourseService,StudentService,LecturerService,Helpers,AuthGuard,RedirectAuthGuard],
+  providers: [ApiService,AuthService,CourseService,StudentService,LecturerService,Helpers,AuthGuard,RedirectAuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

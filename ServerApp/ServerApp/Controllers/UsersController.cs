@@ -21,14 +21,12 @@ namespace ServerApp.Controllers
             this.userService = userService;
         }
 
-        // GET: api/Users
         [HttpGet]
         public async Task<IEnumerable<User>> GetUser()
         {
             return await userService.GetAllUsers();
         }
 
-        // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser([FromRoute] string id)
         {
@@ -47,7 +45,6 @@ namespace ServerApp.Controllers
             return Ok(user);
         }
 
-        // PUT: api/Users/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser([FromRoute] string id, [FromBody] User user)
         {
@@ -72,7 +69,6 @@ namespace ServerApp.Controllers
 
         }
 
-        // POST: api/Users
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] User user)
         {
@@ -92,7 +88,6 @@ namespace ServerApp.Controllers
             return CreatedAtAction("GetUser", new { id = user.UserName }, user);
         }
 
-        // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser([FromRoute] string id)
         {
